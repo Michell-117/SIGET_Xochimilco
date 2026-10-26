@@ -1,0 +1,264 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  schemas = ["SIGET_Xochimilco"]
+}
+
+model areas_atencion {
+  id_area               Int                   @id @default(autoincrement())
+  nombre_area           String                @db.VarChar(150)
+  id_direccion_general  Int
+  direcciones_generales direcciones_generales @relation(fields: [id_direccion_general], references: [id_direccion_general], map: "fk_area_direccion")
+  catalogo_tramites     catalogo_tramites[]
+
+  @@schema("SIGET_Xochimilco")
+}
+
+model asentamiento {
+  id_asentamiento      Int               @id @default(autoincrement())
+  codigo_postal        String            @db.VarChar(10)
+  asentamiento         String            @db.VarChar(150)
+  id_tipo_asentamiento Int
+  id_municipio         Int
+  municipio            municipio         @relation(fields: [id_municipio], references: [id_municipio], map: "fk_asentamiento_municipio")
+  tipo_asentamiento    tipo_asentamiento @relation(fields: [id_tipo_asentamiento], references: [id_tipo_asentamiento], map: "fk_asentamiento_tipo")
+  domicilio            domicilio[]
+
+  @@index([codigo_postal], map: "idx_asentamiento_cp")
+  @@schema("SIGET_Xochimilco")
+}
+
+model catalogo_tramites {
+  id_catalogo_tramite    Int                 @id @default(autoincrement())
+  clave_tramite          String              @unique @db.VarChar(50)
+  nombre_tramite         String              @db.VarChar(255)
+  dias_habiles_respuesta Int                 @default(5)
+  id_area                Int
+  areas_atencion         areas_atencion      @relation(fields: [id_area], references: [id_area], map: "fk_tramite_area")
+  tramites_registro      tramites_registro[]
+
+  @@schema("SIGET_Xochimilco")
+}
+
+/// This model contains an expression index which requires additional setup for migrations. Visit https://pris.ly/d/expression-indexes for more info.
+model contacto {
+  id_contacto         String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  id_peticionario     String       @unique @db.Uuid
+  telefono_1          String       @db.VarChar(20)
+  telefono_2          String?      @db.VarChar(20)
+  email               String?      @db.VarChar(150)
+  fecha_creacion      DateTime     @default(now()) @db.Timestamptz(6)
+  fecha_actualizacion DateTime     @default(now()) @db.Timestamptz(6)
+  peticionario        peticionario @relation(fields: [id_peticionario], references: [id_peticionario], onDelete: Cascade, map: "fk_contacto_peticionario")
+
+  @@schema("SIGET_Xochimilco")
+}
+
+model direcciones_generales {
+  id_direccion_general Int              @id @default(autoincrement())
+  nombre_direccion     String           @unique @db.VarChar(150)
+  areas_atencion       areas_atencion[]
+
+  @@schema("SIGET_Xochimilco")
+}
+
+model domicilio {
+  id_domicilio        Int            @id @default(autoincrement())
+  calle               String         @db.VarChar(255)
+  numero_exterior     String?        @db.VarChar(50)
+  numero_interior     String?        @db.VarChar(50)
+  calle1              String?        @db.VarChar(255)
+  calle2              String?        @db.VarChar(255)
+  id_asentamiento     Int
+  fecha_creacion      DateTime       @default(now()) @db.Timestamptz(6)
+  fecha_actualizacion DateTime       @default(now()) @db.Timestamptz(6)
+  asentamiento        asentamiento   @relation(fields: [id_asentamiento], references: [id_asentamiento], map: "fk_domicilio_asentamiento")
+  peticionario        peticionario[]
+
+  @@schema("SIGET_Xochimilco")
+}
+
+model estado {
+  id_estado Int         @id @default(autoincrement())
+  estado    String      @unique @db.VarChar(100)
+  municipio municipio[]
+
+  @@schema("SIGET_Xochimilco")
+}
+
+model estado_usuarios {
+  id_estado_usuarios Int                @id @default(autoincrement())
+  estado_usuario     String             @unique @db.VarChar(50)
+  usuarios_sistema   usuarios_sistema[]
+
+  @@schema("SIGET_Xochimilco")
+}
+
+model extranjero {
+  id_extranjero               String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  id_peticionario             String       @unique @db.Uuid
+  pais_origen                 String?      @db.VarChar(100)
+  tipo_documento_migratorio   String?      @db.VarChar(100)
+  numero_documento_migratorio String?      @db.VarChar(50)
+  vigencia_documento          DateTime?    @db.Date
+  fecha_creacion              DateTime     @default(now()) @db.Timestamptz(6)
+  fecha_actualizacion         DateTime     @default(now()) @db.Timestamptz(6)
+  peticionario                peticionario @relation(fields: [id_peticionario], references: [id_peticionario], onDelete: Cascade, map: "fk_extranjero_peticionario")
+
+  @@schema("SIGET_Xochimilco")
+}
+
+model generos {
+  id_genero    Int            @id @default(autoincrement())
+  genero       String         @unique @db.VarChar(50)
+  peticionario peticionario[]
+
+  @@schema("SIGET_Xochimilco")
+}
+
+model historial_estatus_tramite {
+  id_historial          String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  id_tramite_registro   String            @db.Uuid
+  id_status             Int
+  id_usuario_modifica   String            @db.Uuid
+  fecha_cambio          DateTime          @default(now()) @db.Timestamptz(6)
+  fecha_caducidad_nueva DateTime?         @db.Date
+  observaciones         String?
+  status_tramite        status_tramite    @relation(fields: [id_status], references: [id_status], map: "fk_historial_status")
+  tramites_registro     tramites_registro @relation(fields: [id_tramite_registro], references: [id_tramite_registro], onDelete: Cascade, map: "fk_historial_tramite")
+  usuarios_sistema      usuarios_sistema  @relation(fields: [id_usuario_modifica], references: [id_usuario], map: "fk_historial_usuario")
+
+  @@schema("SIGET_Xochimilco")
+}
+
+model municipio {
+  id_municipio Int            @id @default(autoincrement())
+  municipio    String         @db.VarChar(150)
+  id_estado    Int
+  asentamiento asentamiento[]
+  estado       estado         @relation(fields: [id_estado], references: [id_estado], map: "fk_municipio_estado")
+
+  @@schema("SIGET_Xochimilco")
+}
+
+model nacionalidades {
+  id_nacionalidad Int            @id @default(autoincrement())
+  nacionalidad    String         @unique @db.VarChar(100)
+  peticionario    peticionario[]
+
+  @@schema("SIGET_Xochimilco")
+}
+
+model perfiles_usuarios {
+  id_perfil        Int                @id @default(autoincrement())
+  tipo_perfil      String             @unique @db.VarChar(50)
+  usuarios_sistema usuarios_sistema[]
+
+  @@schema("SIGET_Xochimilco")
+}
+
+/// This model contains an expression index which requires additional setup for migrations. Visit https://pris.ly/d/expression-indexes for more info.
+model peticionario {
+  id_peticionario        String              @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  nombre_1               String              @db.VarChar(100)
+  nombre_2               String?             @db.VarChar(100)
+  apellido_1             String              @db.VarChar(100)
+  apellido_2             String?             @db.VarChar(100)
+  curp                   String?             @unique @db.VarChar(18)
+  numero_identificacion  String?             @db.VarChar(50)
+  fecha_nacimiento       DateTime?           @db.Date
+  id_tipo_identificacion Int
+  id_nacionalidad        Int
+  id_genero              Int
+  id_tipo_persona        Int
+  id_domicilio           Int
+  fecha_creacion         DateTime            @default(now()) @db.Timestamptz(6)
+  fecha_actualizacion    DateTime            @default(now()) @db.Timestamptz(6)
+  contacto               contacto?
+  extranjero             extranjero?
+  domicilio              domicilio           @relation(fields: [id_domicilio], references: [id_domicilio], map: "fk_peticionario_domicilio")
+  generos                generos             @relation(fields: [id_genero], references: [id_genero], map: "fk_peticionario_genero")
+  tipo_identificacion    tipo_identificacion @relation(fields: [id_tipo_identificacion], references: [id_tipo_identificacion], map: "fk_peticionario_identificacion")
+  nacionalidades         nacionalidades      @relation(fields: [id_nacionalidad], references: [id_nacionalidad], map: "fk_peticionario_nacionalidad")
+  tipo_persona           tipo_persona        @relation(fields: [id_tipo_persona], references: [id_tipo_persona], map: "fk_peticionario_tipo_persona")
+  tramites_registro      tramites_registro[]
+
+  @@schema("SIGET_Xochimilco")
+}
+
+model status_tramite {
+  id_status                 Int                         @id @default(autoincrement())
+  status_tramite            String                      @unique @db.VarChar(50)
+  historial_estatus_tramite historial_estatus_tramite[]
+  tramites_registro         tramites_registro[]
+
+  @@schema("SIGET_Xochimilco")
+}
+
+model tipo_asentamiento {
+  id_tipo_asentamiento Int            @id @default(autoincrement())
+  tipo_asentamiento    String         @unique @db.VarChar(100)
+  asentamiento         asentamiento[]
+
+  @@schema("SIGET_Xochimilco")
+}
+
+model tipo_identificacion {
+  id_tipo_identificacion Int            @id @default(autoincrement())
+  tipo_identificacion    String         @unique @db.VarChar(100)
+  peticionario           peticionario[]
+
+  @@schema("SIGET_Xochimilco")
+}
+
+model tipo_persona {
+  id_tipo_persona Int            @id @default(autoincrement())
+  tipo_persona    String         @unique @db.VarChar(50)
+  peticionario    peticionario[]
+
+  @@schema("SIGET_Xochimilco")
+}
+
+/// This model contains an expression index which requires additional setup for migrations. Visit https://pris.ly/d/expression-indexes for more info.
+model tramites_registro {
+  id_tramite_registro       String                      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  folio                     String                      @unique @db.VarChar(50)
+  id_peticionario           String                      @db.Uuid
+  id_catalogo_tramite       Int
+  id_usuario_captura        String                      @db.Uuid
+  id_status_actual          Int
+  fecha_ingreso             DateTime                    @default(now()) @db.Timestamptz(6)
+  fecha_compromiso          DateTime                    @db.Date
+  fecha_caducidad_conteo    DateTime                    @db.Date
+  fecha_termino             DateTime?                   @db.Timestamptz(6)
+  fecha_creacion            DateTime                    @default(now()) @db.Timestamptz(6)
+  fecha_actualizacion       DateTime                    @default(now()) @db.Timestamptz(6)
+  historial_estatus_tramite historial_estatus_tramite[]
+  catalogo_tramites         catalogo_tramites           @relation(fields: [id_catalogo_tramite], references: [id_catalogo_tramite], map: "fk_registro_catalogo")
+  peticionario              peticionario                @relation(fields: [id_peticionario], references: [id_peticionario], map: "fk_registro_peticionario")
+  status_tramite            status_tramite              @relation(fields: [id_status_actual], references: [id_status], map: "fk_registro_status")
+  usuarios_sistema          usuarios_sistema            @relation(fields: [id_usuario_captura], references: [id_usuario], map: "fk_registro_usuario_captura")
+
+  @@schema("SIGET_Xochimilco")
+}
+
+model usuarios_sistema {
+  id_usuario                String                      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  usuario                   String                      @unique @db.VarChar(50)
+  nombre_completo           String                      @db.VarChar(150)
+  clave                     String                      @db.VarChar(255)
+  id_perfil                 Int
+  id_estado_usuarios        Int
+  fecha_creacion            DateTime                    @default(now()) @db.Timestamptz(6)
+  fecha_actualizacion       DateTime                    @default(now()) @db.Timestamptz(6)
+  historial_estatus_tramite historial_estatus_tramite[]
+  tramites_registro         tramites_registro[]
+  estado_usuarios           estado_usuarios             @relation(fields: [id_estado_usuarios], references: [id_estado_usuarios], map: "fk_usuario_estado")
+  perfiles_usuarios         perfiles_usuarios           @relation(fields: [id_perfil], references: [id_perfil], map: "fk_usuario_perfil")
+
+  @@schema("SIGET_Xochimilco")
+}
