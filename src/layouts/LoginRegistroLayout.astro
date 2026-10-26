@@ -1,0 +1,62 @@
+---
+import { Image } from "astro:assets";
+import imagenLogin from "../assets/login.jpg"
+import imagenRegistro from "../assets/registro.jpg"
+
+import "../styles/global.css";
+
+interface Props {
+    titulo?: string,
+}
+
+const {titulo} = Astro.props
+---
+
+<html lang="es">
+	<head>
+		<meta charset="utf-8" />
+        <link rel="icon" type="image/x-icon" href="/favicon.svg" />
+		<meta name="viewport" content="width=device-width" />
+		<meta name="generator" content={Astro.generator} />
+		<title>{titulo}</title>
+	</head>
+	<body>
+        
+        <!-- Contenedor principal que ocupa toda la pantalla -->
+        <div class="min-h-screen w-full bg-white flex flex-col justify-center">
+
+            <!-- Grid/Flex de dos columnas que llena la pantalla -->
+            <main class="min-h-screen w-full flex flex-col md:flex-row">
+                
+                <!-- LADO IZQUIERDO: Contenedor del Formulario -->
+                
+                <section class="w-full md:w-1/2 flex items-center justify-center p-6 sm:p-12 lg:p-16">
+                    <div class="w-full max-w-md space-y-6">
+
+                        <slot />  <!-- aqui se inserta el formulario de login o de registro -->
+
+                    </div>
+                </section>
+
+                <!-- LÍNEA DIVISORIA SLIM (Visible a partir de pantallas medianas) -->
+                <div class="hidden md:block w-px bg-orange-400 my-8 self-stretch"></div>
+
+                <!-- LADO DERECHO: Contenedor de la Imagen -->
+                <section class="hidden md:flex md:w-1/2 bg-white p-8 items-center justify-center">
+                
+                    <!-- Imagen de Ilustración -->
+                    <Image
+                        src={titulo==='Login'?imagenLogin:imagenRegistro}
+                        alt="Login"
+                        format="webp"
+                        class="w-full max-w-md h-auto object-contain"
+                    />
+
+                </section>
+
+            </main>
+
+        </div>
+
+	</body>
+</html>

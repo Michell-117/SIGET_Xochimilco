@@ -5,7 +5,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  schemas = ["SIGET_Xochimilco"]
+  schemas  = ["SIGET_Xochimilco"]
 }
 
 model areas_atencion {
@@ -252,7 +252,7 @@ model usuarios_sistema {
   nombre_completo           String                      @db.VarChar(150)
   clave                     String                      @db.VarChar(255)
   id_perfil                 Int
-  id_estado_usuarios        Int
+  id_estado_usuarios        Int                         @default(1)
   fecha_creacion            DateTime                    @default(now()) @db.Timestamptz(6)
   fecha_actualizacion       DateTime                    @default(now()) @db.Timestamptz(6)
   historial_estatus_tramite historial_estatus_tramite[]
