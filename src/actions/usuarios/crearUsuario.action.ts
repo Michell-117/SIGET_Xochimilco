@@ -71,7 +71,7 @@ export const crearUsuario = defineAction({
         // Retornamos un objeto con el userId y un Message
 
         return {
-            message: `Usuario '${nuevo_usuario.id_usuario}' registrado exitosamente.`
+            message: `Usuario '${nuevo_usuario.usuario}' registrado exitosamente.`
         };
     }
 });

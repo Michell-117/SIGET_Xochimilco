@@ -1,0 +1,18 @@
+---
+interface Props {
+    accion: string;
+}
+
+const {accion} = Astro.props
+---
+
+<div class="pt-2">
+    <button 
+
+        type="submit" 
+        class="w-full py-3 px-5 bg-orange-600 hover:bg-orange-700 text-white text-base font-medium rounded-xl shadow-sm transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500">
+
+        {accion}
+
+    </button>
+</div>

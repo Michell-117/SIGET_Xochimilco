@@ -1,0 +1,44 @@
+---
+import BtnSubmit from "./BtnSubmit.astro";
+import DivMensajeEstado from "./DivMensajeEstado.astro";
+import InputGeneral from "./InputGeneral.astro";
+import SelectInput from "./SelectInput.astro";
+
+const perfilesUsuarios = [
+    {texto:'Administrador', valor: 1},
+    {texto:'Lider', valor: 2},
+    {texto:'Ingresos', valor: 3},
+    {texto:'Respuestas', valor: 4}
+]
+
+---
+
+<div class="w-full max-w-sm mx-auto bg-white p-10 rounded-2xl shadow-sm border border-slate-100">
+  
+    <!-- Encabezado -->
+    <div class="mb-8">
+        <h1 class="text-3xl font-bold tracking-tight text-orange-600">
+            Registro
+        </h1>
+        <p class="text-sm text-slate-500 mt-2">
+            Por favor completa el formulario para continuar.
+        </p>
+    </div>
+
+    <!-- Formulario -->
+    <form id='formulario_crear_usuario' class="space-y-6" action="#" method="POST">
+
+        <InputGeneral label="Usuario" name="usuario" placeholder="Cuenta usuario" required/>
+        <InputGeneral label="Nombre del Usuario" name="nombre_completo" placeholder="Michell Ruiz Arredondo" required/>
+        <InputGeneral label="Contraseña" name="clave" type='password' placeholder="********" required/>
+
+        <SelectInput label="Perfil Usuario" name="id_perfil" options={perfilesUsuarios} required/>
+
+        <BtnSubmit accion="Registrar"/>
+
+    </form>
+    <!-- Contenedor de mensaje de estado -->
+
+    <DivMensajeEstado />
+
+</div>
