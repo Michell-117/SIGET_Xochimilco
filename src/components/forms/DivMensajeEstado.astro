@@ -2,6 +2,27 @@
 
 ---
 
-<div id="mensaje-estado" class="mt-4 w-full text-center text-sm font-medium rounded-xl transition-all duration-300 empty:hidden">
+<div 
+    id="mensaje-estado" 
+    class="hidden items-center gap-3 p-3.5 mt-4 text-xs sm:text-sm font-medium border rounded-lg transition-all duration-300"
+>
+    <!-- Icono dinámico -->
+    <svg 
+        id="mensaje-icono"
+        class="w-5 h-5 shrink-0" 
+        fill="none" 
+        stroke="currentColor" 
+        viewBox="0 0 24 24"
+    >
+        <path 
+        id="mensaje-icono-path"
+        stroke-linecap="round" 
+        stroke-linejoin="round" 
+        stroke-width="2" 
+        d="" 
+        />
+    </svg>
     
+    <!-- Texto del mensaje -->
+    <span id="mensaje-texto"></span>
 </div>

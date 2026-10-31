@@ -42,14 +42,14 @@ export const crearUsuario = defineAction({
             if (existeUsuario.usuario === usuario) {
                 throw new ActionError({
                     code: 'BAD_REQUEST',
-                    message: 'El nombre de usuario ya existe'
+                    message: 'El nombre de usuario ya existe.'
                 })
             }
 
             if (existeUsuario.nombre_completo === nombre_completo) {
                 throw new ActionError({
                     code: 'BAD_REQUEST',
-                    message: 'La persona ya cuenta con un usuario registrado'
+                    message: 'La persona ya cuenta con un usuario registrado.'
                 })
             }
         }
