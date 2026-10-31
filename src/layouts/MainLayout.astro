@@ -1,0 +1,29 @@
+---
+import NavBar from "../components/navBar/NavBar.astro";
+import "../styles/global.css";
+
+interface Props {
+    titulo?: string
+}
+
+const {titulo = 'SIGET'} = Astro.props
+
+---
+
+<html lang="es">
+
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="icon" href="/favicon.ico" />
+		<meta name="viewport" content="width=device-width" />
+		<meta name="generator" content={Astro.generator} />
+		<title>{titulo}</title>
+	</head>
+
+	<body>
+        <NavBar />
+        <slot />
+	</body>
+    
+</html>

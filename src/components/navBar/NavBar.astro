@@ -1,0 +1,72 @@
+---
+import Menus from "./Menus.astro";
+
+const respuestasMenus = [
+    {texto: 'Caducadas', href: '/respuestas/caducadas'},
+    {texto: 'Seguimiento', href: '/respuestas/seguimiento'},
+    {texto: 'Articulos', href: '/respuestas/articulos'},
+]
+
+const ingresosMenus = [
+    {texto: 'Registro Peticionario', href: '/ingresos/registro-peticionario'},
+    {texto: 'Domicilio Peticionario', href: '/ingresos/domicilio-peticionario'},
+    {texto: 'Contacto Peticionario', href: '/ingresos/contacto-peticionario'},
+]
+
+const estadisticasMenus = [
+    {texto: 'General', href: '/estadisticas/general'},
+    {texto: 'Reportes', href: '/estadisticas/reportes'},
+]
+
+// const{ usuario, tipo } =Astro.locals
+---
+
+<nav class="bg-white border-b border-orange-600 px-6 py-3 select-none">
+
+    <div class="max-w-7xl mx-auto flex items-center justify-between">
+
+        <!-- Lado Izquierdo: SIGET y Enlaces de Navegación -->
+        <div class="flex items-center space-x-8">
+            
+            <!-- 1. Nombre del Sistema -->
+            <span class="text-xl font-bold tracking-wider text-slate-800">
+            S I G E T
+            </span>
+
+            <!-- Menú Principal con Submenús (Hover) -->
+            <div class="flex items-center space-x-1 text-sm font-medium text-slate-600">
+
+                <Menus menu="Ingresos" submenus={ingresosMenus} />
+                <Menus menu="Respuestas" submenus={respuestasMenus} />
+                <Menus menu="Estadísticas" submenus={estadisticasMenus} />
+
+            </div>
+            
+        </div>
+
+        <!-- Lado Derecho: Usuario y Acción -->
+        <div class="flex items-center space-x-4 text-sm">
+            
+            <!-- 5. Nombre del Usuario -->
+            <div class="flex items-center space-x-2 text-slate-700 font-medium">
+                <span class="w-2 h-2 rounded-full bg-emerald-500"></span> <!-- Indicador visual opcional (En línea) -->
+                <!-- <span>{user?.usuario}</span> -->
+                <span>Michell Ruiz</span>
+            </div>
+
+            <!-- Separador discreto -->
+            <div class="h-4 w-px bg-slate-200"></div>
+
+            <!-- 7. Botón Cerrar Sesión -->
+            <button 
+            id="btn-logout"
+            type="button"
+            class="cursor-pointer inline-flex items-center px-3 py-1.5 border border-slate-300 text-xs font-medium rounded-md text-white bg-orange-600 hover:bg-red-800 hover:text-white transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-slate-400">
+            Cerrar Sesión
+            </button>
+
+        </div>
+
+    </div>
+
+</nav>
