@@ -18,7 +18,38 @@ const estadisticasMenus = [
     {texto: 'Reportes', href: '/estadisticas/reportes'},
 ]
 
-// const{ usuario, tipo } =Astro.locals
+const registroUsuarios = [
+    {texto: 'Registrar usuario', href: 'usuarios/registro'},
+    {texto: 'Consultar usuarios', href: 'usuarios/consulta'},
+]
+
+const {usuario} = Astro.locals
+
+const perfil = usuario?.perfil?.toLowerCase() ?? "";
+
+const permisos = (menu:string)=>{
+
+    if( perfil === 'administrador') return true
+
+    switch (menu) {
+
+        case 'usuarios':
+            return false
+
+        case 'ingresos':
+            return ['lider','ingresos'].includes(perfil)
+        
+        case 'respuestas':
+            return ['lider','respuestas'].includes(perfil)
+
+        case 'estadisticas':
+            return ['lider','respuestas', 'ingresos'].includes(perfil)
+    
+        default:
+            return false;
+    }
+
+}
 ---
 
 <nav class="bg-white border-b border-orange-600 px-6 py-3 select-none">
@@ -36,9 +67,21 @@ const estadisticasMenus = [
             <!-- Menú Principal con Submenús (Hover) -->
             <div class="flex items-center space-x-1 text-sm font-medium text-slate-600">
 
-                <Menus menu="Ingresos" submenus={ingresosMenus} />
-                <Menus menu="Respuestas" submenus={respuestasMenus} />
-                <Menus menu="Estadísticas" submenus={estadisticasMenus} />
+                { permisos('usuarios') && (
+                    <Menus menu="Usuarios" submenus={registroUsuarios} />
+                )}
+
+                { permisos('ingresos') && (
+                    <Menus menu="Ingresos" submenus={ingresosMenus} />
+                )}
+
+                { permisos('respuestas') && (
+                    <Menus menu="Respuestas" submenus={respuestasMenus} />
+                )}
+
+                { permisos('estadisticas') && (
+                    <Menus menu="Estadísticas" submenus={estadisticasMenus} />
+                )}
 
             </div>
             
@@ -47,11 +90,22 @@ const estadisticasMenus = [
         <!-- Lado Derecho: Usuario y Acción -->
         <div class="flex items-center space-x-4 text-sm">
             
-            <!-- 5. Nombre del Usuario -->
+            <!-- 5. Nombre del Usuario y perfil -->
             <div class="flex items-center space-x-2 text-slate-700 font-medium">
                 <span class="w-2 h-2 rounded-full bg-emerald-500"></span> <!-- Indicador visual opcional (En línea) -->
-                <!-- <span>{user?.usuario}</span> -->
-                <span>Michell Ruiz</span>
+                
+                <div class="flex flex-col text-left">
+                    
+                    <span class="text-slate-700 font-medium text-sm leading-tight">
+                        {usuario?.nombre}
+                    </span>
+
+                    <span class="text-slate-400 font-normal text-xs leading-tight capitalize">
+                        {usuario?.perfil}
+                    </span>
+
+                </div>
+
             </div>
 
             <!-- Separador discreto -->
