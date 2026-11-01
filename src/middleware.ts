@@ -18,7 +18,8 @@ export const onRequest = defineMiddleware( (context, next)=>{
     if (sessionCokie?.value) {
         
         try {
-            usuario = JSON.parse(sessionCokie.value)
+            // usuario = JSON.parse(sessionCokie.value);
+            usuario = sessionCokie?.json();
         } catch (error) {
             cookies.delete( 'session_user', { path:'/' } )
         }   
