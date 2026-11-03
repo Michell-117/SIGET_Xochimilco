@@ -1,9 +1,17 @@
 ---
+import FormularioRegistroPeticionario from "../../components/forms/ingresos/FormularioRegistroPeticionario.astro";
 import MainLayout from "../../layouts/MainLayout.astro";
 
 
 ---
 
 <MainLayout titulo="R-P">
-
+    <FormularioRegistroPeticionario />
 </MainLayout>
+
+<script src="../../scripts/ingresos/buscarCurp.ts"/>
+<script src="../../scripts/ingresos/buscarCP.ts"/>
+<script src="../../scripts/ingresos/buscarAsentamiento.ts"/>
+<script src="../../scripts/ingresos/crearpeticionario.ts"/>
+
+

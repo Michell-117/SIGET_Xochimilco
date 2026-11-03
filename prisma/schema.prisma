@@ -67,18 +67,20 @@ model direcciones_generales {
 }
 
 model domicilio {
-  id_domicilio        Int            @id @default(autoincrement())
-  calle               String         @db.VarChar(255)
-  numero_exterior     String?        @db.VarChar(50)
-  numero_interior     String?        @db.VarChar(50)
-  calle1              String?        @db.VarChar(255)
-  calle2              String?        @db.VarChar(255)
+  id_domicilio        Int          @id @default(autoincrement())
+  calle               String       @db.VarChar(255)
+  numero_exterior     String?      @db.VarChar(50)
+  numero_interior     String?      @db.VarChar(50)
+  calle1              String?      @db.VarChar(255)
+  calle2              String?      @db.VarChar(255)
   id_asentamiento     Int
-  fecha_creacion      DateTime       @default(now()) @db.Timestamptz(6)
-  fecha_actualizacion DateTime       @default(now()) @db.Timestamptz(6)
-  asentamiento        asentamiento   @relation(fields: [id_asentamiento], references: [id_asentamiento], map: "fk_domicilio_asentamiento")
-  peticionario        peticionario[]
+  fecha_creacion      DateTime     @default(now()) @db.Timestamptz(6)
+  fecha_actualizacion DateTime     @default(now()) @db.Timestamptz(6)
+  id_peticionario     String       @db.Uuid
+  asentamiento        asentamiento @relation(fields: [id_asentamiento], references: [id_asentamiento], map: "fk_domicilio_asentamiento")
+  peticionario        peticionario @relation(fields: [id_peticionario], references: [id_peticionario], onDelete: Cascade, map: "fk_domicilio_peticionario")
 
+  @@index([id_peticionario], map: "idx_domicilio_id_peticionario")
   @@schema("SIGET_Xochimilco")
 }
 
@@ -175,12 +177,11 @@ model peticionario {
   id_nacionalidad        Int
   id_genero              Int
   id_tipo_persona        Int
-  id_domicilio           Int
   fecha_creacion         DateTime            @default(now()) @db.Timestamptz(6)
   fecha_actualizacion    DateTime            @default(now()) @db.Timestamptz(6)
   contacto               contacto?
+  domicilio              domicilio[]
   extranjero             extranjero?
-  domicilio              domicilio           @relation(fields: [id_domicilio], references: [id_domicilio], map: "fk_peticionario_domicilio")
   generos                generos             @relation(fields: [id_genero], references: [id_genero], map: "fk_peticionario_genero")
   tipo_identificacion    tipo_identificacion @relation(fields: [id_tipo_identificacion], references: [id_tipo_identificacion], map: "fk_peticionario_identificacion")
   nacionalidades         nacionalidades      @relation(fields: [id_nacionalidad], references: [id_nacionalidad], map: "fk_peticionario_nacionalidad")

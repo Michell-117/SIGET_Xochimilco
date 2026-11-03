@@ -1,5 +1,5 @@
 import {defineAction, ActionError} from 'astro:actions';
-import {success, z} from 'astro:schema';
+import {z} from 'astro:schema';
 import {prisma} from '../../lib/prisma'
 import bcrypt from 'bcryptjs';
 
