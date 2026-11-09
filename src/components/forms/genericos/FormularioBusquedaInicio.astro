@@ -1,0 +1,110 @@
+---
+import BusquedaIcon from "../../../icons/BusquedaIcon.astro";
+import BotonSubmitIcon from "../../components_forms/BotonSubmitIcon.astro";
+import InputFormularioInicial from "../../components_forms/InputFormularioInicial.astro";
+import MensajeEstadoAlertaFI from "../../components_forms/MensajeEstadoAlertaFI.astro";
+import MensajeEstadoNeutroFI from "../../components_forms/MensajeEstadoNeutroFI.astro";
+import MensajeEstadoPositivoFI from "../../components_forms/MensajeEstadoPositivoFI.astro";
+
+interface Props {
+    paso_formulario: string;
+    titulo_formulario: string;
+    mensaje_formulario: string;
+    label_input: string;
+    name_input: string;
+    placeholder_input: string;
+    max_input: string;
+    min_input: string;
+    mensaje_submit: string;
+    nombre_submit: string;
+    titulo_mensaje_alerta: string;
+    mensaje_alerta: string;
+    titulo_mensaje_positivo: string;
+    mensaje_positivo: string;
+    mensaje_estado_neutro: string;
+}
+
+const {
+        paso_formulario = '1',
+        titulo_formulario,
+        mensaje_formulario,
+        label_input,
+        name_input,
+        placeholder_input,
+        max_input,
+        min_input,
+        mensaje_submit,
+        nombre_submit,
+        titulo_mensaje_alerta,
+        mensaje_alerta,
+        titulo_mensaje_positivo,
+        mensaje_positivo,
+        mensaje_estado_neutro
+    } = Astro.props
+---
+
+<form id="formulario-buscar-curp" method="POST" class="bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden">
+    <div class="bg-linear-to-r from-orange-50/60 to-white p-6">
+      
+        <!-- Grid principal: izquierda (búsqueda) / derecha (resultado del estado) -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+
+            <!-- LADO IZQUIERDO: Campo y Botón de búsqueda (7 columnas en desktop) -->
+            <div class="lg:col-span-7">
+                
+                <div class="flex items-center gap-2 mb-1">
+
+                    <span class="bg-orange-500 text-white text-xs font-bold px-2 py-0.5 rounded-full">
+                        Paso {paso_formulario}
+                    </span>
+
+                    <h2 class="text-xl font-bold text-orange-600">
+                        {titulo_formulario}
+                    </h2>
+
+                </div>
+
+                <p class="text-xs text-slate-500 mb-4">
+                    {mensaje_formulario}
+                </p>
+                
+                <div class="flex flex-col sm:flex-row items-stretch sm:items-end gap-3">
+                
+                    <InputFormularioInicial label={label_input} name={name_input} placeholder={placeholder_input} maxlength={max_input} minlength={min_input} required/>
+
+                    <BotonSubmitIcon titulo = {mensaje_submit} nombre={`boton_${nombre_submit}_sumbit`}>
+                        <BusquedaIcon/>
+                    </BotonSubmitIcon>
+
+                </div>
+
+            </div>
+
+            <!-- LADO DERECHO: Panel de Respuesta/Estado (5 columnas en desktop) -->
+
+            <div class="lg:col-span-5 border-t lg:border-t-0 lg:border-l border-slate-200/80 pt-4 lg:pt-0 lg:pl-6">
+                
+                <!-- ESTADO 1: CURP Ya Registrada  -->
+                <MensajeEstadoAlertaFI 
+                    name="status-registrado" 
+                    titulo_mensaje={titulo_mensaje_alerta} 
+                    mensaje = {mensaje_alerta}
+                />
+                
+                <!-- ESTADO 2: CURP No Registrada  -->
+                <MensajeEstadoPositivoFI 
+                    name ='status-no-registrado' 
+                    titulo_mensaje={titulo_mensaje_positivo}
+                    mensaje = {mensaje_positivo}
+                />
+
+                <!-- ESTADO 3: Estado Neutro -->
+                <MensajeEstadoNeutroFI 
+                    mensaje={mensaje_estado_neutro}
+                />
+
+            </div>
+
+        </div>
+    </div>
+  </form>

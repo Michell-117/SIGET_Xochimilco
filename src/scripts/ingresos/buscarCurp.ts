@@ -5,6 +5,8 @@ const divRegistrado = document.getElementById("status-registrado") as HTMLDivEle
 const divNoRegistrado = document.getElementById("status-no-registrado") as HTMLDivElement;
 const divPlaceholder = document.getElementById("status-placeholder") as HTMLDivElement;
 
+
+
 formulario?.addEventListener('submit',async (evento)=>{
     
     evento.preventDefault();
@@ -30,6 +32,7 @@ formulario?.addEventListener('submit',async (evento)=>{
         divPlaceholder.classList.add('hidden')
         divRegistrado.classList.remove('hidden')
         console.log(data.curp)
+        console.log(data.NombrePeticionario)
     }
 
     if(!data.curp){

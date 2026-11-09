@@ -1,0 +1,19 @@
+---
+interface Props {
+    titulo:string;
+    nombre:string
+}
+
+const {titulo, nombre} = Astro.props
+---
+
+<button 
+    type="submit"
+    name={nombre}
+    class="bg-orange-500 hover:bg-orange-600 active:bg-orange-700 text-white text-sm font-semibold px-5 py-2 rounded-lg shadow-sm transition-colors flex items-center justify-center gap-2 shrink-0"
+>
+    <slot/>
+
+    <span>{titulo}</span>
+    
+</button>

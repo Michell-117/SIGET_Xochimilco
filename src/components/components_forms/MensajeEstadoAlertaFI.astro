@@ -1,0 +1,32 @@
+---
+import InformativoIcon from "../../icons/InformativoIcon.astro";
+
+interface Props {
+    name: string;
+    titulo_mensaje: string;
+    mensaje: string;
+
+}
+
+const {name, titulo_mensaje, mensaje} = Astro.props;
+---
+
+<div id={name} class="hidden bg-amber-50 border border-amber-200/80 rounded-xl p-3.5 items-start gap-3">
+    
+    <div class="p-1 bg-amber-100 rounded-lg text-amber-600 shrink-0 mt-0.5">
+        <InformativoIcon />
+    </div>
+
+    <div>
+
+        <span class="text-xs font-bold text-amber-800 uppercase tracking-wide block">
+            {titulo_mensaje}
+        </span>
+
+        <p class="text-xs text-amber-700 mt-0.5">
+            {mensaje}
+        </p>
+
+    </div>
+
+</div>

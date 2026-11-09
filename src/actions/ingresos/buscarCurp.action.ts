@@ -27,6 +27,7 @@ export const buscarCurp = defineAction({
 
         return {
             curp:true,
+            NombrePeticionario: existeCurp.nombre_1,
             message:'Peticionario registrado, no registrar nuevamente.'
         }
 

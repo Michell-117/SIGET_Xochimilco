@@ -1,0 +1,14 @@
+---
+interface Props{
+    mensaje?: string;
+}
+
+const {mensaje = 'El resultado de la validación aparecerá en este apartado tras realizar la búsqueda.'} = Astro.props;
+
+---
+
+<div id="status-placeholder" class=" bg-slate-100/60 border border-dashed border-slate-200 rounded-xl p-3.5 text-center">
+    <p class="text-xs text-slate-400">
+        {mensaje}
+    </p>
+</div>

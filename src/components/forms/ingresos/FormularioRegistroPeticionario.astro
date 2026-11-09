@@ -3,7 +3,7 @@ import BtnSubmit from "../../components_forms/BtnSubmit.astro";
 import DivMensajeEstado from "../../components_forms/DivMensajeEstado.astro";
 import InputGeneral from "../../components_forms/InputGeneral.astro";
 import SelectInput from "../../components_forms/SelectInput.astro";
-
+import FormularioBusquedaInicio from '../genericos/FormularioBusquedaInicio.astro';
 
 const nacionalidades = [
     {texto:'Mexicana', valor: 1},
@@ -32,85 +32,23 @@ const tipo_identificacion = [
   <!-- ========================================== -->
   <!-- FORMULARIO 1: BÚSQUEDA DE C.U.R.P.         -->
   <!-- ========================================== -->
-  <form id="formulario-buscar-curp" method="POST" class="bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden">
-    <div class="bg-linear-to-r from-orange-50/60 to-white p-6">
-      
-      <!-- Grid principal: izquierda (búsqueda) / derecha (resultado del estado) -->
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
-        
-        <!-- LADO IZQUIERDO: Campo y Botón de búsqueda (7 columnas en desktop) -->
-        <div class="lg:col-span-7">
-          <div class="flex items-center gap-2 mb-1">
-            <span class="bg-orange-500 text-white text-xs font-bold px-2 py-0.5 rounded-full">Paso 1</span>
-            <h2 class="text-xl font-bold text-orange-600">Buscar C.U.R.P.</h2>
-          </div>
-          <p class="text-xs text-slate-500 mb-4">Ingresa la CURP del peticionario para consultar o autocompletar su información.</p>
-          
-          <div class="flex flex-col sm:flex-row items-stretch sm:items-end gap-3">
-            <div class="flex-1">
-              <label for="search-curp" class="block text-xs font-semibold text-slate-600 mb-1">CURP Usuario</label>
-              <input 
-                id="search-curp"
-                name="curp"
-                type="text" 
-                maxlength="18"
-                placeholder="Ingresa CURP (18 caracteres)" 
-                class="w-full border-b-2 border-slate-300 focus:border-orange-500 py-1.5 outline-none text-sm bg-transparent uppercase font-mono tracking-wider transition-colors"
-                required
-              />
-            </div>
-            <button 
-              type="submit" 
-              class="bg-orange-500 hover:bg-orange-600 active:bg-orange-700 text-white text-sm font-semibold px-5 py-2 rounded-lg shadow-sm transition-colors flex items-center justify-center gap-2 shrink-0"
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-              </svg>
-              <span>Buscar peticionario</span>
-            </button>
-          </div>
-        </div>
-
-        <!-- LADO DERECHO: Panel de Respuesta/Estado (5 columnas en desktop) -->
-        <!-- Agrega la clase 'hidden' por defecto en el HTML para mostrarlo sólo mediante JS -->
-        <div class="lg:col-span-5 border-t lg:border-t-0 lg:border-l border-slate-200/80 pt-4 lg:pt-0 lg:pl-6">
-          
-          <!-- ESTADO 1: CURP Ya Registrada (Ejemplo de alerta verde/azul) -->
-          <div id="status-registrado" class="hidden bg-emerald-50 border border-emerald-200/80 rounded-xl p-3.5 items-start gap-3">
-            <div class="p-1 bg-emerald-100 rounded-lg text-emerald-600 shrink-0 mt-0.5">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
-              </svg>
-            </div>
-            <div>
-              <span class="text-xs font-bold text-emerald-800 uppercase tracking-wide block">CURP Registrada</span>
-              <p class="text-xs text-emerald-700 mt-0.5">El peticionario ya se encuentra en el sistema. No volver a registrar peticionario.</p>
-            </div>
-          </div>
-
-          <!-- ESTADO 2: CURP No Registrada (Ejemplo de alerta naranja/gris) -->
-          <div id="status-no-registrado" class="hidden bg-amber-50 border border-amber-200/80 rounded-xl p-3.5 items-start gap-3">
-            <div class="p-1 bg-amber-100 rounded-lg text-amber-600 shrink-0 mt-0.5">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
-              </svg>
-            </div>
-            <div>
-              <span class="text-xs font-bold text-amber-800 uppercase tracking-wide block">CURP No Registrada</span>
-              <p class="text-xs text-amber-700 mt-0.5">No se encontraron registros previos. Puedes proceder a llenar la información en el Paso 2.</p>
-            </div>
-          </div>
-
-          <!-- ESTADO 3: Estado Inicial/Placeholder (Opcional, para guiar antes de buscar) -->
-          <div id="status-placeholder" class=" bg-slate-100/60 border border-dashed border-slate-200 rounded-xl p-3.5 text-center">
-            <p class="text-xs text-slate-400">El resultado de la validación aparecerá en este apartado tras realizar la búsqueda.</p>
-          </div>
-
-        </div>
-
-      </div>
-    </div>
-  </form>
+  <FormularioBusquedaInicio
+    titulo_formulario = 'Buscar CURP peticionario.'
+    paso_formulario="1"
+    mensaje_formulario="Ingresa la CURP del peticionario para consultar si ya esta registrado."
+    label_input="CURP Peticionario"
+    name_input="curp"
+    placeholder_input="INGRESA CURP (18 CARACTERES)"
+    max_input="18"
+    min_input="18"
+    mensaje_submit="Buscar CURP"
+    nombre_submit="Curp"
+    titulo_mensaje_alerta="CURP REGISTRADA"
+    mensaje_alerta="La CURP ingresada ya se encuentra registrada. Ve al formulario de 'Domicilios' para continuar."
+    titulo_mensaje_positivo="CURP NO REGISTRADA"
+    mensaje_positivo="La CURP no ha sido registrada. Puedes continuar con el formulario en el paso 2."
+    mensaje_estado_neutro="El resultado de la busqueda por CURP aparecerá en este apartado."
+  />
 
   <!-- ========================================== -->
   <!-- FORMULARIO 2: REGISTRO COMPLETO            -->
@@ -160,7 +98,7 @@ const tipo_identificacion = [
           </div>
 
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
-            <!-- --------------------------------------------------------------------------------------------------------- -->
+            
             <InputGeneral label="Calle" name="calle" placeholder="Ej: Gladiolas" required />
             <InputGeneral label="Número exterior" name="numero_exterior" placeholder="Ej: 47/" required />
             <InputGeneral label="Número interior" name="numero_interior" placeholder="Ej: casa 2" />
@@ -173,20 +111,22 @@ const tipo_identificacion = [
             <InputGeneral label="Municipio / Alcaldía" name="municipio" placeholder="-- Selecciona asentamiento --" disabled />
             <InputGeneral label="Entidad Federativa" name="estado" placeholder="-- Selecciona asentamiento --" disabled />
 
-            <!-- --------------------------------------------------------------------------------------------------------- -->
           </div>
-        </div>
 
-        <!-- Botones de Acción del Formulario de Registro -->
-        <div class="pt-6 mt-6 border-t border-slate-100 flex justify-end gap-3">
-          
-          <BtnSubmit accion="Registrar"/>
-          <DivMensajeEstado />
         </div>
 
       </div>
 
     </div>
+
+    <!-- Botones de Acción del Formulario de Registro -->
+    <div class="pt-6 mt-6 border-t border-slate-100 flex justify-end gap-3">
+      
+      <BtnSubmit accion="Registrar"/>
+      <DivMensajeEstado />
+      
+    </div>
+
   </form>
 
 </main>
