@@ -4,30 +4,12 @@ import DivMensajeEstado from "../../components_forms/DivMensajeEstado.astro";
 import InputGeneral from "../../components_forms/InputGeneral.astro";
 import SelectInput from "../../components_forms/SelectInput.astro";
 import FormularioBusquedaInicio from '../genericos/FormularioBusquedaInicio.astro';
+import FormularioMainCol2 from "../genericos/FormularioMainCol2.astro";
 
-const nacionalidades = [
-    {texto:'Mexicana', valor: 1},
-    {texto:'Extranjera', valor: 2},
-]
-const generos = [
-    {texto:'Masculino', valor: 1},
-    {texto:'Femenino', valor: 2},
-    {texto:'No Binario', valor: 3},
-    {texto:'Otro / Prefiero no decir', valor: 4},
-]
-const tipos_persona = [
-    {texto:'Física', valor: 1},
-    {texto:'Moral', valor: 2},
-]
-const tipo_identificacion = [
-    {texto:'INE', valor: 1},
-    {texto:'Pasaporte', valor: 2},
-    {texto:'Cédula Profesional', valor: 3},
-    {texto:'Cartilla del Servicio Militar', valor: 2},
-]
 ---
 
 <main class="max-w-7xl mx-auto my-6 px-4 space-y-6">
+
 
   <!-- ========================================== -->
   <!-- FORMULARIO 1: BÚSQUEDA DE C.U.R.P.         -->
@@ -53,80 +35,39 @@ const tipo_identificacion = [
   <!-- ========================================== -->
   <!-- FORMULARIO 2: REGISTRO COMPLETO            -->
   <!-- ========================================== -->
-  <form id="form-registro-peticionario" class="bg-slate-50/50 rounded-2xl border border-slate-200/80 shadow-sm p-6">
-    
-    <!-- Header de la sección de registro -->
-    <div class="flex items-center gap-2 mb-6">
-      <span class="bg-slate-700 text-white text-xs font-bold px-2 py-0.5 rounded-full">Paso 2</span>
-      <h2 class="text-lg font-bold text-slate-800">Información General y Domicilio</h2>
-    </div>
-    
-    <!-- Grid principal de 2 Columnas -->
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-      
-      <!-- COLUMNA IZQUIERDA: Información del Peticionario -->
-      <div class="bg-white p-6 rounded-xl border border-slate-200/70 shadow-sm flex flex-col justify-between">
-        <div>
-          <div class="flex items-center gap-2 pb-4 mb-5 border-b border-slate-100">
-            <span class="w-2.5 h-5 bg-orange-500 rounded-full"></span>
-            <h3 class="text-base font-bold text-slate-800">Información del Peticionario</h3>
-          </div>
+  <FormularioMainCol2
+    paso="2"
+    titulo_general="Información General y Domicilio"
+    titulo_col_1 = "Información del Peticionario"
+    titulo_col_2 = "Domilicio del Peticionario"
+    titulo_submit = "Registrar Peticionario"
+    nombre_submit = "submit_registrar_peticionario"
+  >
+    <!-- Inputs Columna 1 -->
+    <InputGeneral slot="col_1" label="Nombre peticionario" name="nombre_1" placeholder="Primer nombre" required/>
+    <InputGeneral slot="col_1" label="Segundo nombre peticionario" name="nombre_2" placeholder="Segundo nombre" />
+    <InputGeneral slot="col_1" label="Primer apellido peticionario" name="apellido_1" placeholder="Primer apellido" required/>
+    <InputGeneral slot="col_1" label="Segundo apellido peticionario" name="apellido_2" placeholder="Segundo apellido" />
+    <InputGeneral slot="col_1" label="C.U.R.P. peticionario" name="curp" placeholder="C.U.R.P." required/>
+    <InputGeneral slot="col_1" label="Número de identificación" name="numero_identificacion" placeholder="Número identificación"/>
+    <InputGeneral slot="col_1" label="Fecha de nacimiento" type="date" name="fecha_nacimiento" placeholder="Número identificación" required/>
+    <SelectInput slot="col_1" label="Tipo identificación" name="id_tipo_identificacion"  required/>
+    <SelectInput slot="col_1" label="Nacionalidad" name="id_nacionalidad"  required/>
+    <SelectInput slot="col_1" label="Género" name="id_genero"  required/>
+    <SelectInput slot="col_1" label="Tipo de Persona" name="id_tipo_persona"  required/>
 
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
-            <InputGeneral label="Nombre peticionario" name="nombre_1" placeholder="Primer nombre" required/>
-            <InputGeneral label="Segundo nombre peticionario" name="nombre_2" placeholder="Segundo nombre" />
-            <InputGeneral label="Primer apellido peticionario" name="apellido_1" placeholder="Primer apellido" required/>
-            <InputGeneral label="Segundo apellido peticionario" name="apellido_2" placeholder="Segundo apellido" />
-            <InputGeneral label="C.U.R.P. peticionario" name="curp" placeholder="C.U.R.P." required/>
-            <InputGeneral label="Número de identificación" name="numero_identificacion" placeholder="Número identificación"/>
-            <InputGeneral label="Fecha de nacimiento" type="date" name="fecha_nacimiento" placeholder="Número identificación" required/>
-            <SelectInput label="Tipo identificación" name="id_tipo_identificacion" options={tipo_identificacion} required/>
-            <SelectInput label="Nacionalidad" name="id_nacionalidad" options={nacionalidades} required/>
-            <SelectInput label="Género" name="id_genero" options={generos} required/>
-            <SelectInput label="Tipo de Persona" name="id_tipo_persona" options={tipos_persona} required/>
+    <!-- Inputs Columna 2 -->
+    <InputGeneral slot="col_2" label="Calle" name="calle" placeholder="Ej: Gladiolas" required />
+    <InputGeneral slot="col_2" label="Número exterior" name="numero_exterior" placeholder="Ej: 47" required />
+    <InputGeneral slot="col_2" label="Número interior" name="numero_interior" placeholder="Ej: casa 2" />
+    <InputGeneral slot="col_2" label="Entrecalle 1" name="calle1" placeholder="Ej: Francisco Goytia" />
+    <InputGeneral slot="col_2" label="Entrecalle 2" name="calle2" placeholder="Ej: Cuitlahuac" />
+    <InputGeneral slot="col_2" label="Codigo Postal" name="codigo_postal" minlength="5" maxlength="5" placeholder="Ej: 16070" required />
+    <SelectInput  slot="col_2" label="Asentamiento" name="id_asentamiento" placeholder="-- Ingresa C.P. --" disabled required />
+    <InputGeneral slot="col_2" label="Tipo asentamiento" name="tipo_asentamiento" placeholder="-- Selecciona asentamiento --" disabled />
+    <InputGeneral slot="col_2" label="Municipio / Alcaldía" name="municipio" placeholder="-- Selecciona asentamiento --" disabled />
+    <InputGeneral slot="col_2" label="Entidad Federativa" name="estado" placeholder="-- Selecciona asentamiento --" disabled />
+
             
-          </div>
-        </div>
-      </div>
-
-      <!-- COLUMNA DERECHA: Domicilio del Peticionario -->
-      <div class="bg-white p-6 rounded-xl border border-slate-200/70 shadow-sm flex flex-col justify-between">
-        <div>
-          <div class="flex items-center gap-2 pb-4 mb-5 border-b border-slate-100">
-            <span class="w-2.5 h-5 bg-orange-500 rounded-full"></span>
-            <h3 class="text-base font-bold text-slate-800">Domicilio del Peticionario</h3>
-          </div>
-
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
-            
-            <InputGeneral label="Calle" name="calle" placeholder="Ej: Gladiolas" required />
-            <InputGeneral label="Número exterior" name="numero_exterior" placeholder="Ej: 47/" required />
-            <InputGeneral label="Número interior" name="numero_interior" placeholder="Ej: casa 2" />
-            <InputGeneral label="Entrecalle 1" name="calle1" placeholder="Ej: Francisco Goytia" />
-            <InputGeneral label="Entrecalle 2" name="calle2" placeholder="Ej: Cuitlahuac" />
-            <InputGeneral label="Codigo Postal" name="codigo_postal" minlength="5" maxlength="5" placeholder="Ej: 16070" required />
-
-            <SelectInput label="Asentamiento" name="id_asentamiento" placeholder="-- Ingresa C.P. --" disabled required />
-            <InputGeneral label="Tipo asentamiento" name="tipo_asentamiento" placeholder="-- Selecciona asentamiento --" disabled />
-            <InputGeneral label="Municipio / Alcaldía" name="municipio" placeholder="-- Selecciona asentamiento --" disabled />
-            <InputGeneral label="Entidad Federativa" name="estado" placeholder="-- Selecciona asentamiento --" disabled />
-
-          </div>
-
-        </div>
-
-      </div>
-
-    </div>
-
-    <!-- Botones de Acción del Formulario de Registro -->
-    <div class="pt-6 mt-6 border-t border-slate-100 flex justify-end gap-3">
-      
-      <BtnSubmit accion="Registrar"/>
-      <DivMensajeEstado />
-      
-    </div>
-
-  </form>
-
+  </FormularioMainCol2>
 </main>

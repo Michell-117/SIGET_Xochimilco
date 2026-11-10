@@ -1,0 +1,90 @@
+---
+import BtnSubmit from "../../components_forms/BtnSubmit.astro";
+import DivMensajeEstado from "../../components_forms/DivMensajeEstado.astro";
+import InputGeneral  from "../../components_forms/InputGeneral.astro";
+import SelectInput  from "../../components_forms/SelectInput.astro";
+import BotonSubmitIcon  from "../../components_forms/BotonSubmitIcon.astro";
+import FlechaDerecha from "../../../icons/FlechaDerecha.icon.astro";
+import ArchiveBox_X_ from "../../../icons/ArchiveBox_X_.icon.astro";
+import BotonResetIcon from "../../components_forms/BotonResetIcon.astro";
+
+interface Props {
+    paso: string;
+    titulo_general: string;
+    titulo_col_1: string;
+    titulo_col_2: string;
+    titulo_submit: string;
+    nombre_submit: string;
+}
+
+const {
+    paso,
+    titulo_general,
+    titulo_col_1,
+    titulo_col_2,
+    titulo_submit,
+    nombre_submit
+} = Astro.props
+---
+
+<form id="form-registro-peticionario" class="bg-slate-50/50 rounded-2xl border border-slate-200/80 shadow-sm p-6">
+    
+    <!-- Header de la sección de registro -->
+    <div class="flex items-center gap-2 mb-6">
+      <span class="bg-slate-700 text-white text-xs font-bold px-2 py-0.5 rounded-full">{`Paso ${paso}`}</span>
+      <h2 class="text-lg font-bold text-slate-800">{titulo_general}</h2>
+    </div>
+    
+    <!-- Grid principal de 2 Columnas -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      
+      <!-- COLUMNA IZQUIERDA: Información del Peticionario -->
+      <div class="bg-white p-6 rounded-xl border border-slate-200/70 shadow-sm flex flex-col justify-between">
+        <div>
+          <div class="flex items-center gap-2 pb-4 mb-5 border-b border-slate-100">
+            <span class="w-2.5 h-5 bg-orange-500 rounded-full"></span>
+            <h3 class="text-base font-bold text-slate-800">{titulo_col_1}</h3>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+
+            <slot name="col_1"/>
+            
+          </div>
+        </div>
+      </div>
+
+      <!-- COLUMNA DERECHA: Domicilio del Peticionario -->
+      <div class="bg-white p-6 rounded-xl border border-slate-200/70 shadow-sm flex flex-col justify-between">
+        <div>
+          <div class="flex items-center gap-2 pb-4 mb-5 border-b border-slate-100">
+            <span class="w-2.5 h-5 bg-orange-500 rounded-full"></span>
+            <h3 class="text-base font-bold text-slate-800">{titulo_col_2}</h3>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            
+            <slot name="col_2"/>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- Botones de Acción del Formulario de Registro -->
+    <div class="pt-6 mt-6 border-t border-slate-100 grid grid-cols-2 gap-6 items-center">
+
+        <BotonResetIcon titulo="Limpiar formulario" nombre="limpiar_peticionario">
+            <ArchiveBox_X_ />
+        </BotonResetIcon>
+      
+        <BotonSubmitIcon titulo={titulo_submit} nombre={nombre_submit}>
+            <FlechaDerecha />
+        </BotonSubmitIcon>
+      
+    </div>
+
+  </form>
