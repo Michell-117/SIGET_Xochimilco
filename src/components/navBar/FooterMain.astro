@@ -1,0 +1,91 @@
+---
+interface Props {
+  tituloProyecto?: string;
+  claveProyecto?: string;
+  ubicacion?: string;
+  desarrollador?: string;
+  fecha?: string;
+  version?: string;
+}
+
+const {
+  tituloProyecto = "SIGET",
+  claveProyecto = "SIGET_Xochimilco",
+  ubicacion = "Alcaldía Xochimilco, CDMX",
+  desarrollador = "Subdirección de TIC´s / Sistemas",
+  fecha = new Date().toLocaleDateString('es-MX', { year: 'numeric', month: 'long', day: 'numeric' }),
+  version = "v1.0.0"
+} = Astro.props;
+---
+
+<footer class="w-full bg-slate-900 border-t-2 border-orange-600 text-slate-300 font-sans p-4 shadow-2xl select-none">
+  <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-4 text-xs">
+    
+    <!-- Bloque 1: Identificación e Institución -->
+    <div class="md:col-span-4 bg-slate-950 p-3 rounded-lg border border-slate-800 flex flex-col justify-between">
+      <div>
+        <span class="text-[10px] uppercase tracking-wider text-orange-500 font-semibold block">
+          Sistema / Entidad
+        </span>
+        <h3 class="text-sm font-bold text-slate-100 tracking-wide mt-0.5">
+          {tituloProyecto}
+        </h3>
+      </div>
+      <div class="mt-2 pt-2 border-t border-slate-800/80 flex justify-between items-center text-[11px] text-slate-400">
+        <span>Ubicación: <strong class="text-slate-200">{ubicacion}</strong></span>
+      </div>
+    </div>
+
+    <!-- Bloque 2: Metadatos Técnicos -->
+    <div class="md:col-span-5 bg-slate-950 p-3 rounded-lg border border-slate-800 grid grid-cols-2 gap-2">
+      <div>
+        <span class="text-[10px] uppercase tracking-wider text-slate-400 font-semibold block">Clave de Sistema</span>
+        <span class="font-mono text-orange-400 font-semibold">{claveProyecto}</span>
+      </div>
+      <div>
+        <span class="text-[10px] uppercase tracking-wider text-slate-400 font-semibold block">Fecha en Emisión</span>
+        <span class="text-slate-200">{fecha}</span>
+      </div>
+      <div>
+        <span class="text-[10px] uppercase tracking-wider text-slate-400 font-semibold block">Desarrollado Por</span>
+        <span class="text-slate-200 truncate block" title={desarrollador}>{desarrollador}</span>
+      </div>
+      <div>
+        <span class="text-[10px] uppercase tracking-wider text-slate-400 font-semibold block">Versión / Estado</span>
+        <span class="inline-flex items-center gap-1.5 text-slate-200">
+          <span class="h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></span>
+          {version} (Desarrollo)
+        </span>
+      </div>
+    </div>
+
+    <!-- Bloque 3: Módulo de Firmas y Control -->
+    <div class="md:col-span-3 bg-slate-950 p-3 rounded-lg border border-slate-800 flex flex-col justify-between">
+      <span class="text-[10px] uppercase tracking-wider text-slate-400 font-semibold block">
+        Firma / Aprobación
+      </span>
+      <span class="text-slate-200">Ing. Francisco Alfredo Trillo Muñoz</span>
+      
+      <div class="my-2 border-b border-dashed border-slate-700 w-full"></div>
+      
+      <div class="flex items-center justify-between text-[10px] text-slate-400">
+        <span>Sello de Validación</span>
+        <span class="font-mono text-orange-500 font-bold">OK / 2026</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Barra de Créditos / Status del Sistema -->
+  <div class="max-w-7xl mx-auto mt-3 pt-2 border-t border-slate-800/60 flex flex-col sm:flex-row justify-between items-center text-[11px] text-slate-400 gap-2">
+    <p>© {new Date().getFullYear()} — Sistema Integral de Gestión de Trámites.</p>
+    <div class="flex items-center gap-4">
+      <span class="flex items-center gap-1">
+        <span class="h-1.5 w-1.5 rounded-full bg-orange-600"></span>
+        PostgreSQL / Prisma Connected
+      </span>
+      <span class="text-slate-700">|</span>
+      <span>Astro Build</span>
+    </div>
+  </div>
+</footer>

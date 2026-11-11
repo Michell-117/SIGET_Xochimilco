@@ -3,9 +3,33 @@ import BtnSubmit from "../../components_forms/BtnSubmit.astro";
 import DivMensajeEstado from "../../components_forms/DivMensajeEstado.astro";
 import InputGeneral from "../../components_forms/InputGeneral.astro";
 import SelectInput from "../../components_forms/SelectInput.astro";
+import MensajeErrorFormulario from "../../components_forms/MensajeErrorFormulario.astro";
+import ModalFormulario from "../../components_forms/ModalFormulario.astro";
 import FormularioBusquedaInicio from '../genericos/FormularioBusquedaInicio.astro';
 import FormularioMainCol2 from "../genericos/FormularioMainCol2.astro";
+import {actions} from "astro:actions";
 
+interface Option {
+    texto: string;
+    valor: string | number;
+}
+
+let opcionesIdentificacion: Option [] = []
+let opcionesNacionalidad: Option [] = []
+let opcionesGenero: Option [] = []
+let opcionesPersona: Option [] = []
+
+const {data,error} = await Astro.callAction(actions.opcionesPeticionario,{})
+
+if(error){
+  console.log(error) 
+}
+if (data) {
+  opcionesIdentificacion = data.tipos_id;
+  opcionesNacionalidad = data.tipos_na;
+  opcionesGenero = data.tipos_g;
+  opcionesPersona = data.tipos_p;
+}
 ---
 
 <main class="max-w-7xl mx-auto my-6 px-4 space-y-6">
@@ -48,13 +72,13 @@ import FormularioMainCol2 from "../genericos/FormularioMainCol2.astro";
     <InputGeneral slot="col_1" label="Segundo nombre peticionario" name="nombre_2" placeholder="Segundo nombre" />
     <InputGeneral slot="col_1" label="Primer apellido peticionario" name="apellido_1" placeholder="Primer apellido" required/>
     <InputGeneral slot="col_1" label="Segundo apellido peticionario" name="apellido_2" placeholder="Segundo apellido" />
-    <InputGeneral slot="col_1" label="C.U.R.P. peticionario" name="curp" placeholder="C.U.R.P." required/>
+    <InputGeneral slot="col_1" label="C.U.R.P. peticionario" name="curp" placeholder="C.U.R.P." maxlength='18' minlength="18" required/>
     <InputGeneral slot="col_1" label="Número de identificación" name="numero_identificacion" placeholder="Número identificación"/>
     <InputGeneral slot="col_1" label="Fecha de nacimiento" type="date" name="fecha_nacimiento" placeholder="Número identificación" required/>
-    <SelectInput slot="col_1" label="Tipo identificación" name="id_tipo_identificacion"  required/>
-    <SelectInput slot="col_1" label="Nacionalidad" name="id_nacionalidad"  required/>
-    <SelectInput slot="col_1" label="Género" name="id_genero"  required/>
-    <SelectInput slot="col_1" label="Tipo de Persona" name="id_tipo_persona"  required/>
+    <SelectInput slot="col_1" label="Tipo identificación" name="id_tipo_identificacion" options={opcionesIdentificacion} required/>
+    <SelectInput slot="col_1" label="Nacionalidad" name="id_nacionalidad" options={opcionesNacionalidad} required/>
+    <SelectInput slot="col_1" label="Género" name="id_genero" options={opcionesGenero} required/>
+    <SelectInput slot="col_1" label="Tipo de Persona" name="id_tipo_persona" options={opcionesPersona} required/>
 
     <!-- Inputs Columna 2 -->
     <InputGeneral slot="col_2" label="Calle" name="calle" placeholder="Ej: Gladiolas" required />
@@ -70,4 +94,13 @@ import FormularioMainCol2 from "../genericos/FormularioMainCol2.astro";
 
             
   </FormularioMainCol2>
+
+  <ModalFormulario 
+    id_modal="modal-exito-peticionario"
+    titulo_modal="¡Peticionario Registrado Exitosamente!" 
+    mensaje_modal="Los datos se han guardado correctamente en el sistema." 
+    boton_modal="Volver al formulario"
+  />
+
+  <MensajeErrorFormulario/>
 </main>

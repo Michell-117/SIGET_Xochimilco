@@ -1,6 +1,7 @@
 import { buscarAsentamiento } from "./ingresos/buscarAsentamiento.action";
 import { buscarCP } from "./ingresos/buscarCP.action";
 import { buscarCurp } from "./ingresos/buscarCurp.action";
+import { opcionesPeticionario } from "./ingresos/opcionesPeticionario.action";
 import { registrarPeticionario } from "./ingresos/registrarPeticionario.action";
 import { crearUsuario } from "./usuarios/crearUsuario.action";
 import { logoutUsuario } from "./usuarios/logoutUsuario";
@@ -14,4 +15,5 @@ export const server = {
     buscarCP,
     buscarAsentamiento,
     registrarPeticionario,
+    opcionesPeticionario,
 }

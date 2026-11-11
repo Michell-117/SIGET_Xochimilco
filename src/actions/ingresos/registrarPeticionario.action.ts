@@ -44,10 +44,10 @@ export const registrarPeticionario = defineAction({
                 // Crear Peticionario
                 const nuevoPeticionario = await tx.peticionario.create({
                     data: {
-                        nombre_1: input.nombre_1,
-                        nombre_2: input.nombre_2,
-                        apellido_1: input.apellido_1,
-                        apellido_2: input.apellido_2,
+                        nombre_1: input.nombre_1?.toUpperCase(),
+                        nombre_2: input.nombre_2?.toUpperCase(),
+                        apellido_1: input.apellido_1?.toUpperCase(),
+                        apellido_2: input.apellido_2?.toUpperCase(),
                         curp: input.curp.toUpperCase(),
                         numero_identificacion: input.numero_identificacion,
                         fecha_nacimiento: new Date(input.fecha_nacimiento),
@@ -61,7 +61,7 @@ export const registrarPeticionario = defineAction({
                 //  Crear Domicilio usando el id_peticionario 
                 const nuevoDomicilio = await tx.domicilio.create({
                     data: {
-                        calle: input.calle,
+                        calle: input.calle.toUpperCase(),
                         numero_exterior: input.numero_exterior,
                         numero_interior: input.numero_interior,
                         calle1: input.calle1,
