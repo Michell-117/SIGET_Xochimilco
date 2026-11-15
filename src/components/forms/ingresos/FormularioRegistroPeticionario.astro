@@ -39,6 +39,7 @@ if (data) {
   <!-- FORMULARIO 1: BÚSQUEDA DE C.U.R.P.         -->
   <!-- ========================================== -->
   <FormularioBusquedaInicio
+  id_formulario="formulario-buscar-curp"
     titulo_formulario = 'Buscar CURP peticionario.'
     paso_formulario="1"
     mensaje_formulario="Ingresa la CURP del peticionario para consultar si ya esta registrado."
@@ -49,8 +50,10 @@ if (data) {
     min_input="18"
     mensaje_submit="Buscar CURP"
     nombre_submit="Curp"
+    nombre_alerta="status-registrado"
     titulo_mensaje_alerta="CURP REGISTRADA"
     mensaje_alerta="La CURP ingresada ya se encuentra registrada. Ve al formulario de 'Domicilios' para continuar."
+    nombre_positivo="status-no-registrado"
     titulo_mensaje_positivo="CURP NO REGISTRADA"
     mensaje_positivo="La CURP no ha sido registrada. Puedes continuar con el formulario en el paso 2."
     mensaje_estado_neutro="El resultado de la busqueda por CURP aparecerá en este apartado."
@@ -60,6 +63,7 @@ if (data) {
   <!-- FORMULARIO 2: REGISTRO COMPLETO            -->
   <!-- ========================================== -->
   <FormularioMainCol2
+    id_formulario="form-registro-peticionario"
     paso="2"
     titulo_general="Información General y Domicilio"
     titulo_col_1 = "Información del Peticionario"
@@ -68,25 +72,25 @@ if (data) {
     nombre_submit = "submit_registrar_peticionario"
   >
     <!-- Inputs Columna 1 -->
-    <InputGeneral slot="col_1" label="Nombre peticionario" name="nombre_1" placeholder="Primer nombre" required/>
-    <InputGeneral slot="col_1" label="Segundo nombre peticionario" name="nombre_2" placeholder="Segundo nombre" />
-    <InputGeneral slot="col_1" label="Primer apellido peticionario" name="apellido_1" placeholder="Primer apellido" required/>
-    <InputGeneral slot="col_1" label="Segundo apellido peticionario" name="apellido_2" placeholder="Segundo apellido" />
-    <InputGeneral slot="col_1" label="C.U.R.P. peticionario" name="curp" placeholder="C.U.R.P." maxlength='18' minlength="18" required/>
-    <InputGeneral slot="col_1" label="Número de identificación" name="numero_identificacion" placeholder="Número identificación"/>
-    <InputGeneral slot="col_1" label="Fecha de nacimiento" type="date" name="fecha_nacimiento" placeholder="Número identificación" required/>
+    <InputGeneral slot="col_1" label="Nombre peticionario" name="nombre_1" placeholder="Primer nombre" required class:list={'uppercase'}/>
+    <InputGeneral slot="col_1" label="Segundo nombre peticionario" name="nombre_2" placeholder="Segundo nombre" class:list={'uppercase'}/>
+    <InputGeneral slot="col_1" label="Primer apellido peticionario" name="apellido_1" placeholder="Primer apellido" required class:list={'uppercase'}/>
+    <InputGeneral slot="col_1" label="Segundo apellido peticionario" name="apellido_2" placeholder="Segundo apellido" class:list={'uppercase'}/>
+    <InputGeneral slot="col_1" label="C.U.R.P. peticionario" name="curp" placeholder="C.U.R.P." maxlength='18' minlength="18" required class:list={'uppercase'}/>
+    <InputGeneral slot="col_1" label="Número de identificación" name="numero_identificacion" placeholder="Número identificación" class:list={'uppercase'}/>
+    <InputGeneral slot="col_1" label="Fecha de nacimiento" type="date" name="fecha_nacimiento" placeholder="Número identificación" required class:list={'uppercase'}/>
     <SelectInput slot="col_1" label="Tipo identificación" name="id_tipo_identificacion" options={opcionesIdentificacion} required/>
     <SelectInput slot="col_1" label="Nacionalidad" name="id_nacionalidad" options={opcionesNacionalidad} required/>
     <SelectInput slot="col_1" label="Género" name="id_genero" options={opcionesGenero} required/>
     <SelectInput slot="col_1" label="Tipo de Persona" name="id_tipo_persona" options={opcionesPersona} required/>
 
     <!-- Inputs Columna 2 -->
-    <InputGeneral slot="col_2" label="Calle" name="calle" placeholder="Ej: Gladiolas" required />
-    <InputGeneral slot="col_2" label="Número exterior" name="numero_exterior" placeholder="Ej: 47" required />
-    <InputGeneral slot="col_2" label="Número interior" name="numero_interior" placeholder="Ej: casa 2" />
-    <InputGeneral slot="col_2" label="Entrecalle 1" name="calle1" placeholder="Ej: Francisco Goytia" />
-    <InputGeneral slot="col_2" label="Entrecalle 2" name="calle2" placeholder="Ej: Cuitlahuac" />
-    <InputGeneral slot="col_2" label="Codigo Postal" name="codigo_postal" minlength="5" maxlength="5" placeholder="Ej: 16070" required />
+    <InputGeneral slot="col_2" label="Calle" name="calle" placeholder="Ej: Gladiolas" required class:list={'uppercase'}/>
+    <InputGeneral slot="col_2" label="Número exterior" name="numero_exterior" placeholder="Ej: 47" required class:list={'uppercase'}/>
+    <InputGeneral slot="col_2" label="Número interior" name="numero_interior" placeholder="Ej: casa 2" class:list={'uppercase'}/>
+    <InputGeneral slot="col_2" label="Entrecalle 1" name="calle1" placeholder="Ej: Francisco Goytia" class:list={'uppercase'}/>
+    <InputGeneral slot="col_2" label="Entrecalle 2" name="calle2" placeholder="Ej: Cuitlahuac" class:list={'uppercase'}/>
+    <InputGeneral slot="col_2" label="Codigo Postal" name="codigo_postal" minlength="5" maxlength="5" placeholder="Ej: 16070" required class:list={'uppercase'}/>
     <SelectInput  slot="col_2" label="Asentamiento" name="id_asentamiento" placeholder="-- Ingresa C.P. --" disabled required />
     <InputGeneral slot="col_2" label="Tipo asentamiento" name="tipo_asentamiento" placeholder="-- Selecciona asentamiento --" disabled />
     <InputGeneral slot="col_2" label="Municipio / Alcaldía" name="municipio" placeholder="-- Selecciona asentamiento --" disabled />
@@ -99,6 +103,10 @@ if (data) {
     id_modal="modal-exito-peticionario"
     titulo_modal="¡Peticionario Registrado Exitosamente!" 
     mensaje_modal="Los datos se han guardado correctamente en el sistema." 
+    titulo_p1 ='CURP Peticionario:'
+    id_p1 = 'curp-peticionario-registrado'
+    titulo_p2 = 'Id Peticionario:'
+    id_p2="id-peticionario-registrado"
     boton_modal="Volver al formulario"
   />
 

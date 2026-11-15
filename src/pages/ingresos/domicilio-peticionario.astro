@@ -1,0 +1,88 @@
+---
+import InputGeneral from "../../components/components_forms/InputGeneral.astro";
+import MensajeErrorFormulario from "../../components/components_forms/MensajeErrorFormulario.astro";
+import ModalFormulario from "../../components/components_forms/ModalFormulario.astro";
+import SelectInput from "../../components/components_forms/SelectInput.astro";
+import FormularioBusquedaInicio from "../../components/forms/genericos/FormularioBusquedaInicio.astro";
+import FormularioMainCol2 from "../../components/forms/genericos/FormularioMainCol2.astro";
+import MainLayout from "../../layouts/MainLayout.astro";
+
+
+---
+
+<MainLayout titulo="D-P">
+    <main class="max-w-7xl mx-auto my-6 px-4 space-y-6">
+        <FormularioBusquedaInicio
+            id_formulario="formulario_busqueda_peticionario_domicilio"
+            titulo_formulario = 'Seleccionar peticionario por CURP.'
+            paso_formulario="1"
+            mensaje_formulario="Ingresa la CURP del peticionario para consultar su registro."
+            label_input="CURP del Peticionario"
+            name_input="curp"
+            placeholder_input="INGRESA EL CURP (18 CARACTERES)"
+            max_input="18"
+            min_input="18"
+            mensaje_submit="Seleccionar peticionario"
+            nombre_submit="Curp"
+            nombre_alerta="peticionario_no_registrado"
+            titulo_mensaje_alerta="Peticionario no registrado"
+            mensaje_alerta="La CURP ingresada no existe en la base de datos. Registrar peticionario y domicilio."
+            nombre_positivo="peticionario_registrado"
+            titulo_mensaje_positivo="Peticionario encontrado."
+            mensaje_positivo="Los datos del peticionario han sido encontrados. Puedes continuar con el formulario en el paso 2."
+            mensaje_estado_neutro="El resultado de la busqueda por CURP aparecerá en este apartado."
+        />
+
+        <FormularioMainCol2
+            id_formulario="formularioNuevoDomicilioPeticionario"
+            paso="2"
+            titulo_general="Nuevo Domicilio Peticionario"
+            titulo_col_1 = "Información del Peticionario"
+            titulo_col_2 = "Nuevo domilicio del peticionario"
+            titulo_submit = "Registrar nuevo domicilio"
+            nombre_submit = "submit_domicilio_peticionario"
+        >   
+            <!-- Inputs Columna 1 -->
+            <InputGeneral slot="col_1" label="Nombre peticionario" name="nombre_1" placeholder="Primer nombre" required disabled class:list={'uppercase'}/>
+            <InputGeneral slot="col_1" label="Segundo nombre peticionario" name="nombre_2" placeholder="Segundo nombre" disabled class:list={'uppercase'}/>
+            <InputGeneral slot="col_1" label="Primer apellido peticionario" name="apellido_1" placeholder="Primer apellido" required disabled class:list={'uppercase'}/>
+            <InputGeneral slot="col_1" label="Segundo apellido peticionario" name="apellido_2" placeholder="Segundo apellido" disabled class:list={'uppercase'}/>
+            <InputGeneral slot="col_1" label="C.U.R.P. peticionario" name="curpPeticionario" placeholder="C.U.R.P." maxlength='18' minlength="18" required disabled class:list={'uppercase'}/>
+            <InputGeneral slot="col_1" label="Fecha nacimiento" name="fecha_nacimiento" type='date' disabled class:list={'uppercase'}/>
+            <InputGeneral slot="col_1" label="Tipo de persona" name="tipo_persona" placeholder="FÍSICA O MORAL"disabled class:list={'uppercase'}/>
+            <InputGeneral slot="col_1" label="ID peticionario" name="id_peticionario" placeholder="uuid" required readonly class:list={'lowercase'}/>
+   
+            <!-- Inputs Columna 2 -->
+            <InputGeneral slot="col_2" label="Calle" name="calle" placeholder="Ej: Gladiolas" required class:list={'uppercase'}/>
+            <InputGeneral slot="col_2" label="Número exterior" name="numero_exterior" placeholder="Ej: 47" required class:list={'uppercase'}/>
+            <InputGeneral slot="col_2" label="Número interior" name="numero_interior" placeholder="Ej: casa 2" class:list={'uppercase'}/>
+            <InputGeneral slot="col_2" label="Entrecalle 1" name="calle1" placeholder="Ej: Francisco Goytia" class:list={'uppercase'}/>
+            <InputGeneral slot="col_2" label="Entrecalle 2" name="calle2" placeholder="Ej: Cuitlahuac" class:list={'uppercase'}/>
+            <InputGeneral slot="col_2" label="Codigo Postal" name="codigo_postal" minlength="5" maxlength="5" placeholder="Ej: 16070" required />
+            <SelectInput  slot="col_2" label="Asentamiento" name="id_asentamiento" placeholder="-- Ingresa C.P. --" disabled required />
+            <InputGeneral slot="col_2" label="Tipo asentamiento" name="tipo_asentamiento" placeholder="-- Selecciona asentamiento --" disabled />
+            <InputGeneral slot="col_2" label="Municipio / Alcaldía" name="municipio" placeholder="-- Selecciona asentamiento --" disabled />
+            <InputGeneral slot="col_2" label="Entidad Federativa" name="estado" placeholder="-- Selecciona asentamiento --" disabled />
+
+        </FormularioMainCol2>
+
+        <ModalFormulario 
+            id_modal="modal-exito-nuevo-domicilio"
+            titulo_modal="¡Domicilio registrado exitosamente!" 
+            mensaje_modal="El nuevo domicilio ha sido asignado al siguiente peticionario:" 
+            titulo_p1 ='ID peticionario:'
+            id_p1 = 'idPeticionarioNuevoDomicilio'
+            titulo_p2 = 'Nuevo domicilio:'
+            id_p2="domicilioNuevo"
+            boton_modal="Volver al formulario"
+        />
+
+        <MensajeErrorFormulario/>
+
+    </main>
+</MainLayout>
+
+<script src="../../scripts/ingresos/buscarPeticionarioDomicilio.ts" />
+<script src="../../scripts/ingresos/buscarCP.ts" />
+<script src="../../scripts/ingresos/buscarAsentamiento.ts" />
+<script src="../../scripts/ingresos/crearNuevoDomicilio.ts" />

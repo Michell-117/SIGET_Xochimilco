@@ -7,6 +7,7 @@ import MensajeEstadoNeutroFI from "../../components_forms/MensajeEstadoNeutroFI.
 import MensajeEstadoPositivoFI from "../../components_forms/MensajeEstadoPositivoFI.astro";
 
 interface Props {
+    id_formulario: string;
     paso_formulario: string;
     titulo_formulario: string;
     mensaje_formulario: string;
@@ -17,14 +18,17 @@ interface Props {
     min_input: string;
     mensaje_submit: string;
     nombre_submit: string;
+    nombre_alerta: string;
     titulo_mensaje_alerta: string;
     mensaje_alerta: string;
+    nombre_positivo: string;
     titulo_mensaje_positivo: string;
     mensaje_positivo: string;
     mensaje_estado_neutro: string;
 }
 
 const {
+        id_formulario,
         paso_formulario = '1',
         titulo_formulario,
         mensaje_formulario,
@@ -35,15 +39,17 @@ const {
         min_input,
         mensaje_submit,
         nombre_submit,
+        nombre_alerta,
         titulo_mensaje_alerta,
         mensaje_alerta,
         titulo_mensaje_positivo,
+        nombre_positivo,
         mensaje_positivo,
         mensaje_estado_neutro
     } = Astro.props
 ---
 
-<form id="formulario-buscar-curp" method="POST" class="bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden">
+<form id={id_formulario} method="POST" class="bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden">
     <div class="bg-linear-to-r from-orange-50/60 to-white p-6">
       
         <!-- Grid principal: izquierda (búsqueda) / derecha (resultado del estado) -->
@@ -86,14 +92,14 @@ const {
                 
                 <!-- ESTADO 1: CURP Ya Registrada  -->
                 <MensajeEstadoAlertaFI 
-                    name="status-registrado" 
+                    name={nombre_alerta} 
                     titulo_mensaje={titulo_mensaje_alerta} 
                     mensaje = {mensaje_alerta}
                 />
                 
                 <!-- ESTADO 2: CURP No Registrada  -->
                 <MensajeEstadoPositivoFI 
-                    name ='status-no-registrado' 
+                    name ={nombre_positivo}
                     titulo_mensaje={titulo_mensaje_positivo}
                     mensaje = {mensaje_positivo}
                 />

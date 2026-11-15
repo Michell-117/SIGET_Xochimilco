@@ -5,7 +5,7 @@ const modalExito = document.getElementById('modal-exito-peticionario') as HTMLDi
 const mensajeError = document.getElementById('error-envio') as HTMLDivElement;
 const peticionarioCurp = document.getElementById('curp-peticionario-registrado') as HTMLParagraphElement
 const peticionarioId = document.getElementById('id-peticionario-registrado') as HTMLParagraphElement
-const limpiarFormulario = document.getElementById('limpiar_peticionario') as HTMLButtonElement
+const limpiarFormulario = document.getElementById('limpiar_formulario') as HTMLButtonElement
 
 formPeticionario.addEventListener('submit', async (evento)=>{
     evento.preventDefault();
@@ -27,6 +27,5 @@ formPeticionario.addEventListener('submit', async (evento)=>{
 
 limpiarFormulario.addEventListener('click', (e)=>{
     e.preventDefault()
-    console.log('hola evento')
     mensajeError.classList.add('hidden');
 });

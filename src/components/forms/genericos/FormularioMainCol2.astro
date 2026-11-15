@@ -9,25 +9,27 @@ import ArchiveBox_X_ from "../../../icons/ArchiveBox_X_.icon.astro";
 import BotonResetIcon from "../../components_forms/BotonResetIcon.astro";
 
 interface Props {
-    paso: string;
-    titulo_general: string;
-    titulo_col_1: string;
-    titulo_col_2: string;
-    titulo_submit: string;
-    nombre_submit: string;
+  id_formulario: string;
+  paso: string;
+  titulo_general: string;
+  titulo_col_1: string;
+  titulo_col_2: string;
+  titulo_submit: string;
+  nombre_submit: string;
 }
 
 const {
-    paso,
-    titulo_general,
-    titulo_col_1,
-    titulo_col_2,
-    titulo_submit,
-    nombre_submit
+  id_formulario,
+  paso,
+  titulo_general,
+  titulo_col_1,
+  titulo_col_2,
+  titulo_submit,
+  nombre_submit
 } = Astro.props
 ---
 
-<form id="form-registro-peticionario" class="bg-slate-50/50 rounded-2xl border border-slate-200/80 shadow-sm p-6">
+<form id={id_formulario} class="bg-slate-50/50 rounded-2xl border border-slate-200/80 shadow-sm p-6">
     
     <!-- Header de la sección de registro -->
     <div class="flex items-center gap-2 mb-6">
@@ -77,13 +79,13 @@ const {
     <!-- Botones de Acción del Formulario de Registro -->
     <div class="pt-6 mt-6 border-t border-slate-100 grid grid-cols-2 gap-6 items-center">
 
-        <BotonResetIcon titulo="Limpiar formulario" nombre="limpiar_peticionario">
-            <ArchiveBox_X_ />
-        </BotonResetIcon>
-      
-        <BotonSubmitIcon titulo={titulo_submit} nombre={nombre_submit}>
-            <FlechaDerecha />
-        </BotonSubmitIcon>
+      <BotonResetIcon titulo="Limpiar formulario" nombre="limpiar_formulario">
+        <ArchiveBox_X_ />
+      </BotonResetIcon>
+    
+      <BotonSubmitIcon titulo={titulo_submit} nombre={nombre_submit}>
+        <FlechaDerecha />
+      </BotonSubmitIcon>
       
     </div>
 

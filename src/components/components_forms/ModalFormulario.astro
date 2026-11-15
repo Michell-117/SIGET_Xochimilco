@@ -5,10 +5,14 @@ interface Props {
   id_modal: string;
   titulo_modal: string;
   mensaje_modal: string;
+  titulo_p1: string;
+  id_p1: string;
+  titulo_p2: string;
+  id_p2: string;
   boton_modal: string;
 }
 
-const {id_modal,titulo_modal,mensaje_modal,boton_modal} = Astro.props
+const {id_modal,titulo_modal,mensaje_modal, titulo_p1, id_p1, titulo_p2, id_p2, boton_modal} = Astro.props
 ---
 
 <!-- Componente SuccessModal.astro -->
@@ -21,11 +25,11 @@ const {id_modal,titulo_modal,mensaje_modal,boton_modal} = Astro.props
     
     <div class="space-y-1">
       <h3 class="text-lg font-bold text-slate-800">{titulo_modal}</h3>
-      <p class="text-sm text-slate-500" id="modal-exito-mensaje">{mensaje_modal}</p>
-      <p class="text-sm text-slate-800" id="modal-exito-mensaje">CURP Peticionario</p>
-      <p id='curp-peticionario-registrado' class="text-sm text-slate-500" id="modal-exito-mensaje"></p>
-      <p class="text-sm text-slate-800" id="modal-exito-mensaje">Id Peticionario:</p>
-      <p id="id-peticionario-registrado" class="text-sm text-slate-500" id="modal-exito-mensaje"></p>
+      <p class="text-sm text-slate-500" >{mensaje_modal}</p>
+      <p class="text-sm text-slate-800" >{titulo_p1}</p>
+      <p id={id_p1} class="text-sm text-slate-500"></p>
+      <p class="text-sm text-slate-800" >{titulo_p2}</p>
+      <p id={id_p2} class="text-sm text-slate-500"></p>
     
     </div>
 
