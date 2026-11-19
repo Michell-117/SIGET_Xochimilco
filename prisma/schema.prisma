@@ -33,13 +33,17 @@ model asentamiento {
 }
 
 model catalogo_tramites {
-  id_catalogo_tramite    Int                 @id @default(autoincrement())
-  clave_tramite          String              @unique @db.VarChar(50)
-  nombre_tramite         String              @db.VarChar(255)
-  dias_habiles_respuesta Int                 @default(5)
-  id_area                Int
-  areas_atencion         areas_atencion      @relation(fields: [id_area], references: [id_area], map: "fk_tramite_area")
-  tramites_registro      tramites_registro[]
+  id_catalogo_tramite     Int                  @id @default(autoincrement())
+  clave_tramite           String               @unique @db.VarChar(50)
+  nombre_tramite          String               @db.VarChar(255)
+  dias_habiles_respuesta  Int?                 @default(5)
+  id_area                 Int
+  id_tramite_padre        Int?
+  catalogo_tramites       catalogo_tramites?   @relation("catalogo_tramitesTocatalogo_tramites", fields: [id_tramite_padre], references: [id_catalogo_tramite], onDelete: Restrict, onUpdate: NoAction)
+  other_catalogo_tramites catalogo_tramites[]  @relation("catalogo_tramitesTocatalogo_tramites")
+  areas_atencion          areas_atencion       @relation(fields: [id_area], references: [id_area], map: "fk_tramite_area")
+  requisitos_tramite      requisitos_tramite[]
+  tramites_registro       tramites_registro[]
 
   @@schema("SIGET_Xochimilco")
 }
@@ -226,23 +230,24 @@ model tipo_persona {
 
 /// This model contains an expression index which requires additional setup for migrations. Visit https://pris.ly/d/expression-indexes for more info.
 model tramites_registro {
-  id_tramite_registro       String                      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  folio                     String                      @unique @db.VarChar(50)
-  id_peticionario           String                      @db.Uuid
-  id_catalogo_tramite       Int
-  id_usuario_captura        String                      @db.Uuid
-  id_status_actual          Int
-  fecha_ingreso             DateTime                    @default(now()) @db.Timestamptz(6)
-  fecha_compromiso          DateTime                    @db.Date
-  fecha_caducidad_conteo    DateTime                    @db.Date
-  fecha_termino             DateTime?                   @db.Timestamptz(6)
-  fecha_creacion            DateTime                    @default(now()) @db.Timestamptz(6)
-  fecha_actualizacion       DateTime                    @default(now()) @db.Timestamptz(6)
-  historial_estatus_tramite historial_estatus_tramite[]
-  catalogo_tramites         catalogo_tramites           @relation(fields: [id_catalogo_tramite], references: [id_catalogo_tramite], map: "fk_registro_catalogo")
-  peticionario              peticionario                @relation(fields: [id_peticionario], references: [id_peticionario], map: "fk_registro_peticionario")
-  status_tramite            status_tramite              @relation(fields: [id_status_actual], references: [id_status], map: "fk_registro_status")
-  usuarios_sistema          usuarios_sistema            @relation(fields: [id_usuario_captura], references: [id_usuario], map: "fk_registro_usuario_captura")
+  id_tramite_registro         String                        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  folio                       String                        @unique @db.VarChar(50)
+  id_peticionario             String                        @db.Uuid
+  id_catalogo_tramite         Int
+  id_usuario_captura          String                        @db.Uuid
+  id_status_actual            Int
+  fecha_ingreso               DateTime                      @default(now()) @db.Timestamptz(6)
+  fecha_compromiso            DateTime                      @db.Date
+  fecha_caducidad_conteo      DateTime                      @db.Date
+  fecha_termino               DateTime?                     @db.Timestamptz(6)
+  fecha_creacion              DateTime                      @default(now()) @db.Timestamptz(6)
+  fecha_actualizacion         DateTime                      @default(now()) @db.Timestamptz(6)
+  historial_estatus_tramite   historial_estatus_tramite[]
+  registro_requisitos_tramite registro_requisitos_tramite[]
+  catalogo_tramites           catalogo_tramites             @relation(fields: [id_catalogo_tramite], references: [id_catalogo_tramite], map: "fk_registro_catalogo")
+  peticionario                peticionario                  @relation(fields: [id_peticionario], references: [id_peticionario], map: "fk_registro_peticionario")
+  status_tramite              status_tramite                @relation(fields: [id_status_actual], references: [id_status], map: "fk_registro_status")
+  usuarios_sistema            usuarios_sistema              @relation(fields: [id_usuario_captura], references: [id_usuario], map: "fk_registro_usuario_captura")
 
   @@schema("SIGET_Xochimilco")
 }
@@ -261,5 +266,43 @@ model usuarios_sistema {
   estado_usuarios           estado_usuarios             @relation(fields: [id_estado_usuarios], references: [id_estado_usuarios], map: "fk_usuario_estado")
   perfiles_usuarios         perfiles_usuarios           @relation(fields: [id_perfil], references: [id_perfil], map: "fk_usuario_perfil")
 
+  @@schema("SIGET_Xochimilco")
+}
+
+model catalogo_requisitos {
+  id_requisito       Int                  @id @default(autoincrement())
+  nombre_requisito   String               @db.VarChar(150)
+  descripcion        String?
+  activo             Boolean              @default(true)
+  requisitos_tramite requisitos_tramite[]
+
+  @@schema("SIGET_Xochimilco")
+}
+
+model registro_requisitos_tramite {
+  id_registro_requisito_tramite String             @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  id_tramite_registro           String             @db.Uuid
+  id_requisito_tramite          Int
+  cumplido                      Boolean            @default(false)
+  observaciones                 String?
+  fecha_actualizacion           DateTime           @default(now()) @db.Timestamptz(6)
+  requisitos_tramite            requisitos_tramite @relation(fields: [id_requisito_tramite], references: [id_requisito_tramite], onUpdate: NoAction)
+  tramites_registro             tramites_registro  @relation(fields: [id_tramite_registro], references: [id_tramite_registro], onDelete: Cascade, onUpdate: NoAction)
+
+  @@unique([id_tramite_registro, id_requisito_tramite], map: "uq_registro_requisitos_tramite")
+  @@schema("SIGET_Xochimilco")
+}
+
+model requisitos_tramite {
+  id_requisito_tramite        Int                           @id @default(autoincrement())
+  id_catalogo_tramite         Int
+  id_requisito                Int
+  es_obligatorio              Boolean                       @default(true)
+  orden                       Int                           @default(1)
+  registro_requisitos_tramite registro_requisitos_tramite[]
+  catalogo_tramites           catalogo_tramites             @relation(fields: [id_catalogo_tramite], references: [id_catalogo_tramite], onDelete: Cascade, onUpdate: NoAction)
+  catalogo_requisitos         catalogo_requisitos           @relation(fields: [id_requisito], references: [id_requisito], onUpdate: NoAction)
+
+  @@unique([id_catalogo_tramite, id_requisito], map: "uq_requisitos_tramite")
   @@schema("SIGET_Xochimilco")
 }
