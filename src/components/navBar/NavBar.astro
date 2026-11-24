@@ -10,7 +10,7 @@ const respuestasMenus = [
 const ingresosMenus = [
     {texto: 'Registro Peticionario', href: '/ingresos/registro-peticionario'},
     {texto: 'Domicilio Peticionario', href: '/ingresos/domicilio-peticionario'},
-    {texto: 'Contacto Peticionario', href: '/ingresos/contacto-peticionario'},
+    {texto: 'Registro Tramite', href: '/ingresos/registro-tramite'},
 ]
 
 const estadisticasMenus = [
@@ -18,9 +18,10 @@ const estadisticasMenus = [
     {texto: 'Reportes', href: '/estadisticas/reportes'},
 ]
 
-const registroUsuarios = [
+const administracionMenu = [
     {texto: 'Registrar usuario', href: '/usuarios/registro'},
     {texto: 'Consultar usuarios', href: '/usuarios/consulta'},
+    {texto: 'Agregar días inhábiles', href: '/administracion/dias-inhabiles'},
 ]
 
 const {usuario} = Astro.locals
@@ -73,7 +74,7 @@ const permisos = (menu:string)=>{
             <div class="flex items-center space-x-1 text-sm font-medium text-slate-600">
 
                 { permisos('usuarios') && (
-                    <Menus menu="Usuarios" submenus={registroUsuarios} />
+                    <Menus menu="Administración" submenus={administracionMenu} />
                 )}
 
                 { permisos('ingresos') && (

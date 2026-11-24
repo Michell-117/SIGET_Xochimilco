@@ -1,0 +1,80 @@
+---
+import InputGeneral from "../../components/components_forms/InputGeneral.astro";
+import MensajeErrorFormulario from "../../components/components_forms/MensajeErrorFormulario.astro";
+import ModalFormulario from "../../components/components_forms/ModalFormulario.astro";
+import SelectInput from "../../components/components_forms/SelectInput.astro";
+import FormularioBusquedaInicio from "../../components/forms/genericos/FormularioBusquedaInicio.astro";
+import FormularioMainCol2 from "../../components/forms/genericos/FormularioMainCol2.astro";
+import MainLayout from "../../layouts/MainLayout.astro";
+
+
+---
+
+<MainLayout titulo="Registrar Trámite">
+
+    <main class="max-w-7xl mx-auto my-6 px-4 space-y-6">
+        <FormularioBusquedaInicio
+            id_formulario="formulario_busqueda_peticionario_registro_tramite"
+            titulo_formulario = 'Seleccionar peticionario por CURP.'
+            paso_formulario="1"
+            mensaje_formulario="Ingresa la CURP del peticionario para registrar y asignar trámite"
+            label_input="CURP del Peticionario."
+            name_input="curp"
+            placeholder_input="INGRESA EL CURP (18 CARACTERES)"
+            max_input="18"
+            min_input="18"
+            mensaje_submit="Seleccionar peticionario"
+            nombre_submit="Curp"
+            nombre_alerta="peticionario_no_registrado"
+            titulo_mensaje_alerta="Peticionario no registrado"
+            mensaje_alerta="La CURP ingresada no existe en la base de datos. Registrar peticionario antes de crear y asignar trámite."
+            nombre_positivo="peticionario_registrado"
+            titulo_mensaje_positivo="Peticionario encontrado."
+            mensaje_positivo="Los datos del peticionario han sido encontrados. Puedes continuar con el formulario en el paso 2."
+            mensaje_estado_neutro="El resultado de la busqueda por CURP aparecerá en este apartado."
+        />
+
+        <FormularioMainCol2
+            id_formulario="formularioNuevoTramitePeticionario"
+            paso="2"
+            titulo_general="Información del Peticionario y creación del trámite."
+            titulo_col_1 = "Información del Peticionario y del trámite"
+            titulo_col_2 = "Requisitos del trámite"
+            titulo_submit = "Registrar nuevo trámite"
+            nombre_submit = "submit_tramite_peticionario"
+        >   
+            <!-- Inputs Columna 1 -->
+            <InputGeneral slot="col_1" label="Nombre completo del peticionario" name="nombre_peticionario" placeholder="Nombre peticionario" disabled class:list={'uppercase'}/>
+            <InputGeneral slot="col_1" label="ID peticionario" name="id_peticionario" placeholder="uuid" required disabled />
+            <SelectInput  slot="col_1" label="Seleccionar Domicilio" name="id_domicilio" placeholder="-- Sin registro --" disabled required />
+            <SelectInput  slot="col_1" label="Seleccionar Dirección" name="id_direccion_general" placeholder="-- Selecciona una Direccion --" required />
+            <SelectInput  slot="col_1" label="Seleccionar Trámite" name="id_catalogo_tramite" placeholder="-- Selecciona una Direccion --" disabled required />
+            <SelectInput  slot="col_1" label="Seleccionar Trámite específico" name="id_catalogo_sub_tramite" placeholder="-- Selecciona un trámite --" disabled />
+            <InputGeneral slot="col_1" label="Folio" name="folio" placeholder="vut_xoch_125" required class:list={'uppercase'}  />
+            <InputGeneral slot="col_1" label="Dias respuesta" name="dias_respuesta" placeholder="5 días habiles" required type='number'  />
+            
+   
+            <!-- Inputs Columna 2 -->
+            
+
+        </FormularioMainCol2>
+
+        <ModalFormulario 
+            id_modal="modal-exito-creacion-tramite"
+            titulo_modal="¡Trámite registrado exitosamente!" 
+            mensaje_modal="El trámite se ha registrado con el siguiente ID:" 
+            titulo_p1 ='ID Trámite:'
+            id_p1 = 'idTramite'
+            titulo_p2 = 'Información del trámite:'
+            id_p2="infoTramite"
+            boton_modal="Volver al formulario"
+        />
+
+        <MensajeErrorFormulario/>
+
+    </main>
+    
+</MainLayout>
+
+<script src="../../scripts/ingresos/buscarPeticionarioResgistroTramite" />
+<script src="../../scripts/ingresos/seleccionarTramite_y_Requisitos" />

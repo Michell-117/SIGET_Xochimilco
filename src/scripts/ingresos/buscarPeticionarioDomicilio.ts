@@ -30,7 +30,7 @@ formularioBusquedaPeticionario.addEventListener('submit', async (e)=>{
         mensajeAlerta.classList.remove('hidden')
         mensajePositivo.classList.add('hidden')
         mensajeNeutro.classList.add('hidden')
-        console.log(error)
+        // console.log(error)
 
     }
 

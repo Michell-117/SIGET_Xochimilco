@@ -41,11 +41,11 @@ formulario?.addEventListener("submit", async (evento) => {
 
     if (error) {
         if (divMensaje && spanTexto) {
-        prepararMensaje();
-        spanTexto.textContent = error.message;
-        divMensaje.classList.add('bg-red-50', 'border-red-200', 'text-red-700');
-        svgIcono.classList.add('text-red-500');
-        pathIcono.setAttribute('d', PATH_WARNING_ERROR);
+            prepararMensaje();
+            spanTexto.textContent = error.message;
+            divMensaje.classList.add('bg-red-50', 'border-red-200', 'text-red-700');
+            svgIcono.classList.add('text-red-500');
+            pathIcono.setAttribute('d', PATH_WARNING_ERROR);
         }
         return;
     }

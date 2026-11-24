@@ -1,0 +1,34 @@
+---
+import  BotonResetIcon  from "../../components/components_forms/BotonResetIcon.astro";
+import  BotonSubmitIcon  from "../../components/components_forms/BotonSubmitIcon.astro";
+import InputGeneral from "../../components/components_forms/InputGeneral.astro";
+import FormularioMainCol1 from "../../components/forms/genericos/FormularioMainCol1.astro";
+import MainLayout from "../../layouts/MainLayout.astro";
+import ArchiveBox_X_ from "../../icons/ArchiveBox_X_.icon.astro"
+import FlechaDerecha from "../../icons/FlechaDerecha.icon.astro"
+import DivMensajeEstado from '../../components/components_forms/DivMensajeEstado.astro'
+
+
+
+---
+
+
+<MainLayout>
+    <FormularioMainCol1> 
+        <InputGeneral slot="input_1" label="Fecha" name="fecha" type='date' required/>
+        <InputGeneral slot="input_2" label="Descripción del día inhábil" name="descripcion" placeholder="Natalicio de Benito Juárez" class:list={'uppercase'} required/>
+        
+        <BotonResetIcon slot="botonesFormulario" titulo="Limpiar formulario" nombre="limpiar_formulario">
+            <ArchiveBox_X_ />
+        </BotonResetIcon>
+        
+        <BotonSubmitIcon slot="botonesFormulario" titulo='Registrar día inhábil' nombre='submit_dia_inhabil'>
+            <FlechaDerecha />
+        </BotonSubmitIcon>
+
+        <DivMensajeEstado slot="mensaje_estado" />
+
+    </FormularioMainCol1>
+</MainLayout>
+
+<script src="../../scripts/administracion/crearDiaInhabil.ts"/>
