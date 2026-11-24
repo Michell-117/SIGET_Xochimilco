@@ -29,7 +29,7 @@ export const onRequest = defineMiddleware( (context, next)=>{
 
     const usuarioAutenticado = !!usuario;
     const paginaLogin = pathname === "/login";
-    const isPublicAsset = pathname.startsWith('/_astro') || pathname.startsWith('/favicon') || pathname.startsWith('/_actions');
+    const isPublicAsset = pathname.startsWith('/_astro') || pathname.startsWith('/favicon') || pathname.startsWith('/_actions') || pathname.startsWith('/_image');
 
     if (isPublicAsset) {
         return next();

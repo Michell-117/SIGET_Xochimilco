@@ -299,31 +299,3 @@ model requisitos_tramite {
   @@unique([id_catalogo_tramite, id_requisito], map: "uq_requisitos_tramite")
   @@schema("SIGET_Xochimilco")
 }
-
-model dias_inhabiles {
-  id_dia_inhabil Int      @id @default(autoincrement())
-  fecha          DateTime @unique @db.Date
-  descripcion    String   @db.VarChar(150)
-  anio           Int?     @default(dbgenerated("EXTRACT(year FROM fecha)")) @db.SmallInt
-  activo         Boolean  @default(true)
-
-  @@index([fecha], map: "idx_dias_inhabiles_fecha", where: raw("(activo = true)"))
-  @@schema("SIGET_Xochimilco")
-}
-
-model tramite_requisitos_entregados {
-  id_tramite_requisito Int                 @id @default(autoincrement())
-  id_tramite_registro  String              @db.Uuid
-  id_tramite           Int
-  id_requisito         Int
-  entregado            Boolean             @default(false)
-  fecha_entrega        DateTime?           @db.Timestamptz(6)
-  catalogo_requisitos  catalogo_requisitos @relation(fields: [id_requisito], references: [id_requisito], map: "fk_tre_catalogo_requisito")
-  catalogo_tramites    catalogo_tramites   @relation(fields: [id_tramite], references: [id_catalogo_tramite], map: "fk_tre_catalogo_tramite")
-  tramites_registro    tramites_registro   @relation(fields: [id_tramite_registro], references: [id_tramite_registro], onDelete: Cascade, map: "fk_tre_tramite_registro")
-
-  @@unique([id_tramite_registro, id_tramite, id_requisito], map: "uq_tramite_registro_tramite_requisito")
-  @@index([id_tramite], map: "idx_tre_id_tramite")
-  @@index([id_tramite_registro], map: "idx_tre_id_tramite_registro")
-  @@schema("SIGET_Xochimilco")
-}
